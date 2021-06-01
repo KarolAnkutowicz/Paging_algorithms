@@ -16,7 +16,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    cpaging.cpp
+    cpaging.cpp \
+    cdata.cpp
 
 HEADERS += \
-    cpaging.h
+    cpaging.h \
+    cdata.h
