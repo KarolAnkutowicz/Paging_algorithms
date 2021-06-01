@@ -45,7 +45,10 @@ public:
      * POST:
      * - zwrocenie wartosci referencji (typ: typePaging).
      */
-    typePaging getReference(typePaging parSeries, typePaging parReference);
+    inline typePaging getReference(typePaging parSeries, typePaging parReference)
+    {
+        return tableReference[parSeries][parReference];
+    }
 
 
 

@@ -20,16 +20,6 @@ cData::cData()
 
 
 /*
- * getReference(typePaging parSeries, typePaging parReference)
- */
-/*typePaging cData::getReference(typePaging parSeries, typePaging parReference)
-{
-
-}*/
-
-
-
-/*
  * mDrawReference()
  */
 void cData::mDrawReference()
@@ -40,17 +30,19 @@ void cData::mDrawReference()
 /*
  * mClearSeries(typePaging parSeries)
  */
-/*void cData::mClearSeries(typePaging parSeries)
+void cData::mClearSeries(typePaging parSeries)
 {
-
-}*/
+    for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich kolumnach w serii
+        tableReference[parSeries][j] = 0; // wyzerowanie referencji
+}
 
 /*
  * mClearAllSeries()
  */
 void cData::mClearAllSeries()
 {
-
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+        mClearSeries(i); // wyzerowanie wskazanej serii
 }
 
 
