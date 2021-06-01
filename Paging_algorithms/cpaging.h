@@ -11,8 +11,15 @@ using namespace std;
 
 class cPaging
 {
+/********** PRIVATE: BEGINNING **********/
+
+/********** PRIVATE: END **********/
+
+/********** PUBLIC: BEGINNING **********/
 public:
     cPaging();
+
+/********** PUBLIC: END **********/
 };
 
 #endif // CPAGING_H

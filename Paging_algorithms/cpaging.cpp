@@ -8,9 +8,16 @@
 
 using namespace std;
 
+/********** PRIVATE: BEGINNING **********/
+
+/********** PRIVATE: END **********/
+
+/********** PUBLIC: BEGINNING **********/
 cPaging::cPaging()
 {
 }
+
+/********** PUBLIC: END **********/
 
 /* cpaging.cpp */
 /********** END_OF_FILE **********/
