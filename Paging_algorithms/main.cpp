@@ -4,6 +4,9 @@
  * file: main.cpp
  */
 
+#include "constantsandtypes.h"
+#include <iostream>
+
 using namespace std;
 
 int main()
