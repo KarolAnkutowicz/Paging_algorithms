@@ -239,6 +239,67 @@ public:
 
 
 
+    /*
+     * mStartLRU() - metoda realizujaca dzialanie algorytmu
+     * LRU.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mStartLRU();
+
+    /*
+     * mClearChronology() - metoda czyszczaca zawartosc tablicy
+     * tableTimeChronology.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mClearChronology();
+
+    /*
+     * mGenerateChronology() - metoda generujaca chronologie
+     * stron.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mGenerateChronology();
+
+    /*
+     * mFindTheOldest() - metoda wyszukujaca najdawniej uzywana
+     * strone.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mFindTheOldest();
+
+    /*
+     * getTheOldest() - metoda zwracajaca najdawniej uzywana
+     * strone.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie numeru najdawniej uzywanej strony
+     * (typ: typePaging).
+     */
+    typePaging getTheOldest();
+
+    /*
+     * mActualizeChronology() - metoda odswiezajaca chronologie
+     * stron.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mActualizeChronology();
+
 
 
 
