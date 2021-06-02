@@ -304,6 +304,100 @@ public:
 
 
 
+
+
+
+    /*
+     * mStartLFU() - metoda realizujaca dzialanie algorytmu LFU.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mStartLFU();
+
+    /*
+     * mStartMFU() - metoda realizujaza dzialanie algorytmu MFU.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mStartMFU();
+
+    /*
+     * mClearUsingPage(typePaging parPage) - metoda zerujaca
+     * liczbe uzyc wskazanej strony.
+     * PRE:
+     * - podanie numeru strony (typ: typePaging);
+     * POST:
+     * - brak.
+     */
+    void mClearUsingPage(typePaging parPage);
+
+    /*
+     * mClearAllUsingPage() - metoda zerujaca liczbe uzyc
+     * wszystkich stron.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mClearAllUsingPage();
+
+    /*
+     * mIncrementUsingPage(typePaging parPage) - metoda
+     * inkrementujaca liczba uzyc wskazanej strony.
+     * PRE:
+     * - podanie numeru strony (typ: typePaging);
+     * POST:
+     * - brak.
+     */
+    void mIncrementUsingPage(typePaging parPage);
+
+    /*
+     * mFindMinUsingPage() - metoda znajdujaca strone
+     * najrzadziej uzywana.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mFindMinUsingPage();
+
+    /*
+     * mFindMaxUsingPage() - metoda znajdujaca strone
+     * najczesciej uzywana.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mFindMaxUsingPage();
+
+    /*
+     * getMinUsingPage() - metoda zwracajaca numer strony
+     * najrzadziej uzywanej.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie numeru strony (typ: typePaging).
+     */
+    typePaging getMinUsingPage();
+
+    /*
+     * getMaxUsingPage() - metoda zwracajaca numer strony
+     * najczesniej uzywanej.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie numeru strony (typ: typePaging).
+     */
+    typePaging getMaxUsingPage();
+
+
+
+
 /********** PUBLIC: END **********/
 };
 
