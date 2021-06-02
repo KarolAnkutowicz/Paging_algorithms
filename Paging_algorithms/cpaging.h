@@ -66,7 +66,61 @@ class cPaging
 
 /********** PUBLIC: BEGINNING **********/
 public:
+    /*
+     * cPaging() - konstruktor wywolywany bez parametrow
+     * PRE:
+     * - brak;
+     * POST:
+     * - utworzenie obiektu klasy cPaging.
+     */
     cPaging();
+
+    /*
+     * cPaging(typePaging parNumberAlgorithm) - konstruktor
+     * wywolywany z jednym parametrem - wskazanym algorytmem.
+     * PRE:
+     * - podanie algorytmu (typ: typePaging);
+     * POST:
+     * - utworzenie obiektu klasy cPaging.
+     */
+    cPaging(typePaging parNumberAlgorithm);
+
+
+
+    /*
+     * mClearAllFrames() - metoda czyszczaca tablice ramek.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mClearAllFrames();
+
+    /*
+     * getFrame(typePaging parIndex) - metoda zwracajaca
+     * zawartosc wskazanej ramki (strone).
+     * PRE:
+     * - podanie indeksu ramki (typ: typePaging);
+     * POST:
+     * - zwrocenie numeru strony (typ: typePaging).
+     */
+    typePaging getFrame(typePaging parIndex);
+
+    /*
+     * setPage(typePaging parFrame, typePaging parPage) -
+     * metoda wstawiajaca okreslona strone do wskazanej ramki.
+     * PRE:
+     * - podanie numeru ramki (typ: typePaging), podanie
+     * numeru strony (typ: typePaging);
+     * POST:
+     * - brak.
+     */
+    void setPage(typePaging parFrame, typePaging parPage);
+
+
+
+
+
 
 /********** PUBLIC: END **********/
 };
