@@ -302,11 +302,6 @@ public:
 
 
 
-
-
-
-
-
     /*
      * mStartLFU() - metoda realizujaca dzialanie algorytmu LFU.
      * PRE:
@@ -396,6 +391,17 @@ public:
     typePaging getMaxUsingPage();
 
 
+
+    /*
+     * mPrintResultsToFile(enumAlgorithms parAlgorithm) -
+     * metoda wypisujaca do pliku wyniki dzialania wskazanego
+     * algorytmu.
+     * PRE:
+     * - podanie algorytmu (typ: enumAlgorithms);
+     * POST:
+     * - brak.
+     */
+    void mPrintResultsToFile(enumAlgorithms parAlgorithm);
 
 
 /********** PUBLIC: END **********/
