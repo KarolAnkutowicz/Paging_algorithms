@@ -104,7 +104,10 @@ public:
      * POST:
      * - zwrocenie numeru strony (typ: typePaging).
      */
-    typePaging getFrame(typePaging parIndex);
+    inline typePaging getFrame(typePaging parIndex)
+    {
+        return tableFrame[parIndex];
+    }
 
     /*
      * setPage(typePaging parFrame, typePaging parPage) -
@@ -115,7 +118,73 @@ public:
      * POST:
      * - brak.
      */
-    void setPage(typePaging parFrame, typePaging parPage);
+    inline void setPage(typePaging parFrame, typePaging parPage)
+    {
+        tableFrame[parFrame] = parPage;
+    }
+
+
+
+    /*
+     * mClearLack(typePaging parSeries) - metoda czyszczaca
+     * liczbe brakow stron we wskazanej serii.
+     * PRE:
+     * - podanie numeru serii (typ: typePaging);
+     * POST:
+     * - brak.
+     */
+    inline void mClearLack(typePaging parSeries)
+    {
+        tableNumberOfLack[parSeries] = 0;
+    }
+
+    /*
+     * mClearAllLacks() - metoda czyszczaca liczby brakow
+     * stron we wszystkich seriach.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mClearAllLacks();
+
+    /*
+     * mIncrementLack(typePaging parSeries) - metoda
+     * inkrementujaca liczbe brakow stron we wskazanej serii.
+     * PRE:
+     * - podanie numeru serii (typ: typePaging);
+     * POST:
+     * - brak.
+     */
+    inline void mIncrementLack(typePaging parSeries)
+    {
+        tableNumberOfLack[parSeries]++;
+    }
+
+
+
+    /*
+     * mCalculateAverageNumberOfLack() - metoda obliczajaca
+     * srednia liczbe brakow stron ze wszystkich serii.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mCalculateAverageNumberOfLack();
+
+    /*
+     * getAverageNumberOfLack() - metoda zwracajaca srednia
+     * liczbe brakow stron ze wszystkich serii.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    inline double getAverageNumberOfLack()
+    {
+        return vAverageNumberOfLack;
+    }
 
 
 
