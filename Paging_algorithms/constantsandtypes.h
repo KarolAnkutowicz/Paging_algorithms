@@ -10,6 +10,15 @@
 using namespace std;
 
 /*
+ * enum enumAlgorithms - zdefiniowany typ wyliczeniowy
+ * do znormalizowania argumentow potrzebnych do wywolywania
+ * wskazanych metod.
+ */
+enum enumAlgorithms {fifo, lru, lfu, mfu};
+
+
+
+/*
  * unsigned short typePaging - zdefiniowanie synonimu dla typu
  * liczby stron i ramek.
  */

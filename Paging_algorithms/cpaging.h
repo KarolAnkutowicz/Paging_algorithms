@@ -79,11 +79,11 @@ public:
      * cPaging(typePaging parNumberAlgorithm) - konstruktor
      * wywolywany z jednym parametrem - wskazanym algorytmem.
      * PRE:
-     * - podanie algorytmu (typ: typePaging);
+     * - podanie algorytmu (typ: enumAlgorithms);
      * POST:
      * - utworzenie obiektu klasy cPaging.
      */
-    cPaging(typePaging parNumberAlgorithm);
+    cPaging(enumAlgorithms parNumberAlgorithm);
 
 
 
