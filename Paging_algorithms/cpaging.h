@@ -188,6 +188,58 @@ public:
 
 
 
+    /*
+     * mStartFIFO() - metoda realizujaca dzialanie algorytmu
+     * FIFO.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mStartFIFO();
+
+    /*
+     * mClearOrder() - metoda czyszczaca zawartosc tablicy
+     * tableTypingOrder zawierajaca wytypowana kolejnosc ramek
+     * do usuniecia.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mClearOrder();
+
+    /*
+     * mGenerateOrder() - metoda generujaca kolejnosc stron.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mGenerateOrder();
+
+    /*
+     * getFirst() - metoda zwracajaca pierwsza wskazana strone.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie wartosci strony (typ: typePaging).
+     */
+    typePaging getFirst();
+
+    /*
+     * mMoveToEnd(typePaging parFrame) - metoda przesuwajaca
+     * okreslona strone na koniec kolejki stron do usuniecia.
+     * PRE:
+     * - podanie numeru strony (typ: typePaging);
+     * POST:
+     * - brak.
+     */
+    void mMoveToEnd(typePaging parFrame);
+
+
+
+
 
 
 
