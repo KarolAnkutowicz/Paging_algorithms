@@ -7,6 +7,10 @@
 #ifndef CPAGINGALGORITHMS_H
 #define CPAGINGALGORITHMS_H
 
+#include "constantsandtypes.h"
+
+using namespace std;
+
 class cPagingAlgorithms
 {
 public:

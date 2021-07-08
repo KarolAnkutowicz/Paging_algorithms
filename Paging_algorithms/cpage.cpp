@@ -6,6 +6,8 @@
 
 #include "cpage.h"
 
+using namespace std;
+
 cPage::cPage()
 {
 }

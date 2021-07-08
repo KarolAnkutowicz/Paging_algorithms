@@ -6,6 +6,8 @@
 
 #include "cpagingalgorithms.h"
 
+using namespace std;
+
 cPagingAlgorithms::cPagingAlgorithms()
 {
 }
