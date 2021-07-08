@@ -8,6 +8,7 @@
 #define CPAGE_H
 
 #include "constantsandtypes.h"
+#include <iomanip>
 #include <iostream>
 
 using namespace std;
@@ -52,14 +53,14 @@ public:
     cPage();
 
     /*
-     * cPage(typePaging aNumberpage) - konstruktor wywolywany
+     * cPage(typePaging aNumberPage) - konstruktor wywolywany
      * z jednym argumentem - numerem strony.
      * PRE:
      * - podanie numeru strony (typ: typePaging);
      * POST:
      * - tworzenie obiektu klasy cPage.
      */
-    cPage(typePaging aNumberpage);
+    cPage(typePaging aNumberPage);
 
 
 
