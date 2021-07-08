@@ -29,7 +29,7 @@ typedef unsigned short typePaging;
 /*
  * typePaging constPage - zdefiniowanie liczby stron
  */
-const typePaging constPage = 20;
+const typePaging constPage = 5;
 
 /*
  * typePaging constFram - zdefiniowanie liczby ramek
@@ -39,12 +39,12 @@ const typePaging constFrame = 3;
 /*
  * typePaging constReference - zdefiniowanie liczby referencji
  */
-const typePaging constReference = 100;
+const typePaging constReference = 10;
 
 /*
  * typePaging constSeries - zdefiniowanie liczby serii
  */
-const typePaging constSeries = 100;
+const typePaging constSeries = 10;
 
 #endif // CONSTANTSANDTYPES_H
 
