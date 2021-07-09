@@ -43,10 +43,10 @@ class cPagingAlgorithms
     typePaging tabSumNumberOfLack[constSeries];
 
     /*
-     * typePaging tabTotalNumberOfLacks - calkowita suma
+     * typePaging vTotalNumberOfLacks - calkowita suma
      * brakow stron.
      */
-    typePaging tabTotalNumberOfLacks;
+    typePaging vTotalNumberOfLacks;
 
     /*
      * double vAverageNumberOfLack - srednia wartosc brakow stron.
@@ -178,7 +178,10 @@ public:
      * POST:
      * - brak.
      */
-    void mResetReference(typePaging aSeries, typePaging aReference);
+    inline void mResetReference(typePaging aSeries, typePaging aReference)
+    {
+        tabReferences[aSeries][aReference] = 0;
+    }
 
     /*
      * void mResetSeries(typePaging aSeries) - metoda resetujaca
@@ -229,7 +232,10 @@ public:
      * POST:
      * - brak.
      */
-    void mPrintReference(typePaging aSeries, typePaging aReference);
+    inline void mPrintReference(typePaging aSeries, typePaging aReference)
+    {
+        cout << tabReferences[aSeries][aReference];
+    }
 
     /*
      * void mPrintSeries(typePaging aSeries) - metoda wypisujaca
@@ -311,7 +317,10 @@ public:
      * POST:
      * - brak.
      */
-    void mResetTotalNumberOfLacks();
+    inline void mResetTotalNumberOfLacks()
+    {
+        vTotalNumberOfLacks = 0;
+    }
 
     /*
      * void mCalculateAverageNumberOfLacks() - metoda obliczajaca
@@ -321,7 +330,10 @@ public:
      * POST:
      * - brak.
      */
-    void mCalculateAverageNumberOfLacks();
+    inline void mCalculateAverageNumberOfLacks()
+    {
+        vAverageNumberOfLack = vTotalNumberOfLacks / constSeries;
+    }
 
     /*
      * void mResetAverageNumberOfLacks() - metoda resetujaca
@@ -331,7 +343,10 @@ public:
      * POST:
      * - brak.
      */
-    void mResetAverageNumberOfLacks();
+    inline void mResetAverageNumberOfLacks()
+    {
+        vAverageNumberOfLack = 0;
+    }
 
 
 
