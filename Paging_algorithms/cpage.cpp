@@ -8,6 +8,8 @@
 
 using namespace std;
 
+/********** PUBLIC: BEGINNING **********/
+
 /*
  * cPage()
  */
@@ -51,6 +53,8 @@ istream & operator >> (istream & StreamIn, cPage & P)
     P.mResetNumberOfLacks(); // strona jeszcze nie ma brakow
     return StreamIn; // zwrocenie strumienia
 }
+
+/********** PUBLIC: END **********/
 
 /* cpage.cpp */
 /********** END_OF_FILE **********/

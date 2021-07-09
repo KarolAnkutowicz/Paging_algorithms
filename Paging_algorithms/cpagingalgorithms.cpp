@@ -8,9 +8,13 @@
 
 using namespace std;
 
+/********** PUBLIC: BEGINNING **********/
+
 cPagingAlgorithms::cPagingAlgorithms()
 {
 }
+
+/********** PUBLIC: END **********/
 
 /* cpagingalgorithms.cpp */
 /********** END_OF_FILE **********/

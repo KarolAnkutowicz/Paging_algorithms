@@ -18,6 +18,8 @@ using namespace std;
  */
 class cPage
 {
+    /********** PRIVATE: BEGINNING **********/
+
     /*
      * typePaging vNumberPage - numer strony.
      */
@@ -47,6 +49,9 @@ class cPage
      */
     typePaging vNumberOfLacks;
 
+/********** PRIVATE: END **********/
+
+/********** PUBLIC: BEGINNING **********/
 public:
     /*
      * cPage() - konstruktor wywolywany bez argumentow
@@ -256,6 +261,8 @@ public:
     {
         vNumberOfLacks = 0;
     }
+
+/********** PUBLIC: END **********/
 };
 
 #endif // CPAGE_H
