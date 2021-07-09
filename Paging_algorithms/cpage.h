@@ -49,6 +49,12 @@ class cPage
      */
     typePaging vNumberOfLacks;
 
+    /*
+     * typePaging vAgeOfPage - "wiek" danej strony tzn. liczba
+     * cykli przebywania w ramce.
+     */
+    typePaging vAgeOfPage;
+
 /********** PRIVATE: END **********/
 
 /********** PUBLIC: BEGINNING **********/
@@ -165,6 +171,18 @@ public:
         return vNumberOfLacks;
     }
 
+    /*
+     * typePaging getAgeOfPage() - metoda zwracajaca "wiek"
+     * danej strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie wartosci pola vAgeOfPage (typ: typePaging).
+     */
+    inline typePaging getAgeOfPage()
+    {
+        return vAgeOfPage;
+    }
 
 
     /*
@@ -237,6 +255,21 @@ public:
     }
 
     /*
+     * void mIncrementAgeOfPage() - metoda inkrementujaca wiek
+     * strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    inline void mIncrementAgeOfPage()
+    {
+        vAgeOfPage++;
+    }
+
+
+
+    /*
      * void mResetNumberOfUsing() - metoda resetujaca liczbe
      * uzyc strony.
      * PRE:
@@ -260,6 +293,18 @@ public:
     inline void mResetNumberOfLacks()
     {
         vNumberOfLacks = 0;
+    }
+
+    /*
+     * void mResetAgeOfPage() - metoda resetujaca wiek strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    inline void mResetAgeOfPage()
+    {
+        vAgeOfPage = 0;
     }
 
 /********** PUBLIC: END **********/
