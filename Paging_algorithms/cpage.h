@@ -37,6 +37,11 @@ class cPage
     typePaging vNumberUsingFrame;
 
     /*
+     * typePaging vNumberOfUsing - liczba uzyc strony.
+     */
+    typePaging vNumberOfUsing;
+
+    /*
      * typePaging vNumberOfLacks - calkowity numer brakow
      * strony
      */
@@ -129,6 +134,20 @@ public:
     }
 
     /*
+     * typePaging getNumberOfUsing() - metoda zwracajaca liczbe
+     * uzyc strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie wartosci pola vNumberOfUsing (typ:
+     * typePaging).
+     */
+    inline typePaging getNumberOfUsing()
+    {
+        return vNumberOfUsing;
+    }
+
+    /*
      * typePaging getNumberOfLacks() - metoda zwracajaca liczbe
      * brakow strony.
      * PRE:
@@ -187,8 +206,21 @@ public:
 
 
     /*
+     * void mIncrementNumberOfUsing() - metoda inkrementujaca
+     * liczbe uzyc strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    inline void mIncrementNumberOfUsing()
+    {
+        vNumberOfUsing++;
+    }
+
+    /*
      * void mIncrementNumberOfLacks() - metoda inkrementujaca
-     * wartosc brakow strony.
+     * liczbe brakow strony.
      * PRE:
      * - brak;
      * POST:
@@ -197,6 +229,19 @@ public:
     inline void mIncrementNumberOfLacks()
     {
         vNumberOfLacks++;
+    }
+
+    /*
+     * void mResetNumberOfUsing() - metoda resetujaca liczbe
+     * uzyc strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    inline void mResetNumberOfUsing()
+    {
+        vNumberOfUsing = 0;
     }
 
     /*
