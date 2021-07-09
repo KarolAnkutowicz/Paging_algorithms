@@ -161,6 +161,135 @@ public:
 
 
     /*
+     * cPage getPage(typePaging aIndex) - metoda zwracajaca wskazana
+     * strone.
+     * PRE:
+     * - podanie numeru indeksu (typ: typePaging);
+     * POST:
+     * - zwrocenie strony (typ: cPage).
+     */
+    inline cPage getPage(typePaging aIndex)
+    {
+        return tabPages[aIndex];
+    }
+
+    /*
+     * cPage getReference(typePaging aSeries, typePaging aIndex) -
+     * metoda zwracajaca wartosc wskazanej referencji.
+     * PRE:
+     * - podanie numeru serii (typ: typePaging), podanie
+     * indeksu referencji w serii (typ: typePaging);
+     * POST:
+     * - zwrocenie referencji (typ: cPage).
+     */
+    inline cPage getReference(typePaging aSeries, typePaging aIndex)
+    {
+        return tabReferences[aSeries][aIndex];
+    }
+
+    /*
+     * cPage getFrame(typePaging aIndex) - metoda zwracajaca
+     * zawartosc wskazanej ramki.
+     * PRE:
+     * - podanie numeru indeksu (typ: typePaging);
+     * POST:
+     * - zwrocenie zawartosci ramki (typ: cPage).
+     */
+    inline cPage getFrame(typePaging aIndex)
+    {
+        return tabFrames[aIndex];
+    }
+
+    /*
+     * typePaging getSumNumberOfLacks(typePaging aSeries) -
+     * metoda zwracajaca liczbe brakow stron we wskazanej
+     * serii.
+     * PRE:
+     * - podanie numeru serii (typ: typePaging);
+     * POST:
+     * - zwrocenie liczby brakow (typ: typePaging).
+     */
+    inline typePaging getSumNumberOfLacks(typePaging aSeries)
+    {
+        return tabSumNumberOfLack[aSeries];
+    }
+
+    /*
+     * typePaging getTotalNumberOfLacks() - metoda zwracajaca
+     * calkowita liczbe brakow ze wszystkich serii.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie wartosci pola vTotalNumberOfLacks (typ:
+     * typePaging).
+     */
+    inline typePaging getTotalNumberOfLacks()
+    {
+        return vTotalNumberOfLacks;
+    }
+
+    /*
+     * double getAverageNumberOfLacks() - metoda zwracajaca
+     * srednia liczbe brakow stron ze wszystkich serii.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie zawartosci pola vAverageNumberOfLacks
+     * (typ: typePaging).
+     */
+    inline double getAverageNumberOfLacks()
+    {
+        return vAverageNumberOfLack;
+    }
+
+
+
+    /*
+     * void setPage(typePaging aIndex, cPage aPage) - metoda
+     * ustawiajaca strone we wskazanym miejscu tablicy stron.
+     * PRE:
+     * - podanie indeksu (typ: typePaging), podanie strony
+     * (typ: cPage);
+     * POST:
+     * - brak.
+     */
+    inline void setPage(typePaging aIndex, cPage aPage)
+    {
+        tabPages[aIndex] = aPage;
+    }
+
+    /*
+     * void setReference(typePaging aSeries, typePaging aIndex, cPage aPage) -
+     * metoda ustawiajaca referencje we wskazanym miejscu
+     * tablicy referencji.
+     * PRE:
+     * - podanie numeru serii (typ: typePaging), podanie
+     * indeksu (typ: typePaging), podanie wartosci (typ: cPage);
+     * POST:
+     * - brak.
+     */
+    inline void setReference(typePaging aSeries, typePaging aIndex, cPage aPage)
+    {
+        tabReferences[aSeries][aIndex] = aPage;
+    }
+
+    /*
+     * void setFrame(typePaging aIndex, cPage aPage) - metoda
+     * ustawiajaca zawartosc wskazanej ramki.
+     * PRE:
+     * - podanie indeksu (typ: typePaging), podanie strony
+     * (typ: cPage);
+     * POST:
+     * - brak.
+     */
+    inline void setFrame(typePaging aIndex, cPage aPage)
+    {
+        tabFrames[aIndex] = aPage;
+    }
+
+
+
+    /*
      * void mDrawReferences() - metoda losujaca referencje.
      * PRE:
      * - brak;
