@@ -15,7 +15,13 @@ using namespace std;
  */
 cPagingAlgorithms::cPagingAlgorithms()
 {
-
+    mResetAllReferences(); // wyczyszczenie tablicy referencji
+    mDrawReferences(); // wylosowanie referencji
+    mWriteReferencesToFile(); // wypisanie referencji do pliku
+    mMakeFIFO(); // wywolanie metody implmentujacej dzialanie algorytmu FIFO
+    mMakeLRU(); // wywolanie metody implmentujacej dzialanie algorytmu LRU
+    mMakeLFU(); // wywolanie metody implmentujacej dzialanie algorytmu LFU
+    mMakeMFU(); // wywolanie metody implmentujacej dzialanie algorytmu MFU
 }
 
 /*
@@ -23,7 +29,16 @@ cPagingAlgorithms::cPagingAlgorithms()
  */
 cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
 {
-
+    mResetAllReferences(); // wyczyszczenie tablicy referencji
+    mDrawReferences(); // wylosowanie referencji
+    mWriteReferencesToFile(); // wypisanie referencji do pliku
+    switch(aAlgorithm) // wywolanie odpowiedniej metody, zgodnie z podanym argumentem
+    {
+        case fifo: mMakeFIFO(); break; // wywolanie metody implmentujacej dzialanie algorytmu FIFO
+        case lru: mMakeLRU(); break; // wywolanie metody implmentujacej dzialanie algorytmu LRU
+        case lfu: mMakeLFU(); break; // wywolanie metody implmentujacej dzialanie algorytmu LFU
+        case mfu: mMakeMFU(); break; // wywolanie metody implmentujacej dzialanie algorytmu MFU
+    }
 }
 
 
