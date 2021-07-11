@@ -157,7 +157,6 @@ void cPagingAlgorithms::mPrintAllReferences()
  */
 void cPagingAlgorithms::mResetFrames()
 {
-
 }
 
 /*
@@ -165,25 +164,19 @@ void cPagingAlgorithms::mResetFrames()
  */
 void cPagingAlgorithms::mPrintFrames()
 {
-
+    for (typePaging i = 0; i < constFrame; i++) // przejscie po wszystkich ramkach
+        cout << "Frame " << i << ": " << tabFrames[i] << endl; // sformatowane wypisanie zawartosci kolejnej ramki
 }
 
 
-
-/*
- * void mResetSumNumberOfLack(typePaging aSeries)
- */
-void cPagingAlgorithms::mResetSumNumberOfLack(typePaging aSeries)
-{
-
-}
 
 /*
  * void mResetAllSumNumberOfLack()
  */
 void cPagingAlgorithms::mResetAllSumNumberOfLack()
 {
-
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+        mResetSumNumberOfLack(i); // wywolanie metody resetujacej sume brakow stron wskazanej serii
 }
 
 /*
@@ -191,7 +184,10 @@ void cPagingAlgorithms::mResetAllSumNumberOfLack()
  */
 void cPagingAlgorithms::mCalculateTotalNumberOfLacks()
 {
-
+    typePaging vSum = 0; // nadanie sumy poczatkowej
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+        vSum += getSumNumberOfLacks(i); // dodanie do sumy liczby brakow ze wskazanej serii
+    vTotalNumberOfLacks = vSum; // ustanowienie ostatecznej sumy
 }
 
 
@@ -201,7 +197,20 @@ void cPagingAlgorithms::mCalculateTotalNumberOfLacks()
  */
 void cPagingAlgorithms::mWriteResultsToFile(enumAlgorithms aAlgorithms)
 {
-
+    // fifo, lru, lfu, mfu
+    ofstream StreamOut; // zdefiniowanie strumienia
+    switch(aAlgorithms)
+    {
+        case fifo: StreamOut.open("resultsFIFO.txt"); break; // otwarcie strumienia dla wynikow algorytmu FIFO
+        case lru: StreamOut.open("resultsLRU.txt"); break; // otwarcie strumienia dla wynikow algorytmu LRU
+        case lfu: StreamOut.open("resultsLFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu LFU
+        case mfu: StreamOut.open("resultsMFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu MFU
+    }
+    StreamOut << "Total number of lacks: " << setw(5)
+              << getTotalNumberOfLacks() << "    "
+              << "Average number of lacks: " << setw(4)
+              << getAverageNumberOfLacks() << endl;
+    StreamOut.close();
 }
 
 /********** PUBLIC: END **********/

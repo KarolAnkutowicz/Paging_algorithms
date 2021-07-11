@@ -9,6 +9,9 @@
 
 #include "constantsandtypes.h"
 #include "cpage.h"
+#include <fstream>
+#include <iomanip>
+#include <iostream>
 
 using namespace std;
 
@@ -416,7 +419,10 @@ public:
      * POST:
      * - brak.
      */
-    void mResetSumNumberOfLack(typePaging aSeries);
+    inline void mResetSumNumberOfLack(typePaging aSeries)
+    {
+        tabSumNumberOfLack[aSeries] = 0;
+    }
 
     /*
      * void mResetAllSumNumberOfLack() - metoda resetujaca
