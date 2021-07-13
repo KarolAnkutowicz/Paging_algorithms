@@ -9,6 +9,8 @@
 
 #include "constantsandtypes.h"
 #include "cpage.h"
+#include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <iostream>

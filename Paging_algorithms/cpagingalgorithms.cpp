@@ -114,7 +114,17 @@ typePaging cPagingAlgorithms::mGetMostFrequentlyUsed()
  */
 void cPagingAlgorithms::mDrawReferences()
 {
-
+    typePaging vReference; // zmienna, ktorej wartosc bedziemy losowac
+    mResetAllReferences(); // wyczyszczenie tablicy referencji
+    srand(time_t(NULL)); // ustanowienie zmiennej losowej
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+    {
+        for (typePaging j = 0; i < constReference; j++) // przejscie po wszystkich procesach
+        {
+            vReference = rand() % constPage + 1; // losowanie referencji
+            tabReferences[i][j].setNumberPage(vReference); // ustanowienie wywolania
+        }
+    }
 }
 
 /*
@@ -170,7 +180,8 @@ void cPagingAlgorithms::mWriteReferencesToFile()
  */
 void cPagingAlgorithms::mPrintSeries(typePaging aSeries)
 {
-
+    for (typePaging i = 0; i < constReference; i++) // przejscie po wszystkich referencjach w serii
+        cout << tabReferences[aSeries][i]; // wypisanie referencji
 }
 
 /*
@@ -178,7 +189,11 @@ void cPagingAlgorithms::mPrintSeries(typePaging aSeries)
  */
 void cPagingAlgorithms::mPrintAllReferences()
 {
-
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+    {
+        mPrintSeries(i); // wywolanie metody wypisujacej referencje ze wskazanej serii
+        cout << endl; // nowa seria - nowa linijka tekstu
+    }
 }
 
 
