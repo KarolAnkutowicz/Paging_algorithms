@@ -122,7 +122,8 @@ void cPagingAlgorithms::mDrawReferences()
  */
 void cPagingAlgorithms::mResetSeries(typePaging aSeries)
 {
-
+    for (typePaging i = 0; i < constReference; i++) // przejscie po wszystkich referencjach
+        mResetReference(aSeries, i); // resetowanie wskazanej referencji
 }
 
 /*
@@ -130,7 +131,8 @@ void cPagingAlgorithms::mResetSeries(typePaging aSeries)
  */
 void cPagingAlgorithms::mResetAllReferences()
 {
-
+    for (typePaging i = 0; i < constReference; i++) // przejscie po wszystkich seriach
+        mResetSeries(i); // resetowanie wskazanej serii
 }
 
 /*
@@ -138,7 +140,13 @@ void cPagingAlgorithms::mResetAllReferences()
  */
 void cPagingAlgorithms::mReadReferencesFromFile()
 {
-
+    mResetAllReferences(); // wyczyszczenie aktualnej tablicy referencji
+    ifstream StreamIn; // utworzenie wejsciowego strumienia plikowego
+    StreamIn.open("references.txt"); // otwarcie strumienia
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach
+            StreamIn >> skipws >> tabReferences[i][j]; // wczytanie pojedynczej referencji
+    StreamIn.close(); // zamkniecie strumienia
 }
 
 /*
@@ -146,7 +154,15 @@ void cPagingAlgorithms::mReadReferencesFromFile()
  */
 void cPagingAlgorithms::mWriteReferencesToFile()
 {
-
+    ofstream StreamOut; // utworzenie wyjsciowego strumienia plikowego
+    StreamOut.open("references"); // otwarcie strumienia
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+    {
+        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach
+            StreamOut << tabReferences[i][j]; // wypisanie referencji
+        StreamOut << endl; // nowa seria - nowa linijka tekstu
+    }
+    StreamOut.close(); // zamkniecie strumienia
 }
 
 /*
