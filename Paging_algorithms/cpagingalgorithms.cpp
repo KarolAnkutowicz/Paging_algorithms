@@ -19,6 +19,7 @@ cPagingAlgorithms::cPagingAlgorithms()
     mDrawReferences(); // wylosowanie referencji
     mWriteReferencesToFile(); // wypisanie referencji do pliku
     mMakeFIFO(); // wywolanie metody implmentujacej dzialanie algorytmu FIFO
+    mMakeLIFO(); // wywolanie metody implmentujacej dzialanie algorytmu LIFO
     mMakeLRU(); // wywolanie metody implmentujacej dzialanie algorytmu LRU
     mMakeLFU(); // wywolanie metody implmentujacej dzialanie algorytmu LFU
     mMakeMFU(); // wywolanie metody implmentujacej dzialanie algorytmu MFU
@@ -35,6 +36,7 @@ cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
     switch(aAlgorithm) // wywolanie odpowiedniej metody, zgodnie z podanym argumentem
     {
         case fifo: mMakeFIFO(); break; // wywolanie metody implmentujacej dzialanie algorytmu FIFO
+        case lifo: mMakeLIFO(); break; // wywolanie metody implmentujacej dzialanie algorytmu LIFO
         case lru: mMakeLRU(); break; // wywolanie metody implmentujacej dzialanie algorytmu LRU
         case lfu: mMakeLFU(); break; // wywolanie metody implmentujacej dzialanie algorytmu LFU
         case mfu: mMakeMFU(); break; // wywolanie metody implmentujacej dzialanie algorytmu MFU
@@ -47,6 +49,14 @@ cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
  * void mMakeFIFO()
  */
 void cPagingAlgorithms::mMakeFIFO()
+{
+
+}
+
+/*
+ * void mMakeLIFO()
+ */
+void cPagingAlgorithms::mMakeLIFO()
 {
 
 }
@@ -248,6 +258,7 @@ void cPagingAlgorithms::mWriteResultsToFile(enumAlgorithms aAlgorithms)
     switch(aAlgorithms)
     {
         case fifo: StreamOut.open("resultsFIFO.txt"); break; // otwarcie strumienia dla wynikow algorytmu FIFO
+        case lifo: StreamOut.open("resultsLIFO.txt"); break; // otwarcie strumienia dla wynikow algorytmu LIFO
         case lru: StreamOut.open("resultsLRU.txt"); break; // otwarcie strumienia dla wynikow algorytmu LRU
         case lfu: StreamOut.open("resultsLFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu LFU
         case mfu: StreamOut.open("resultsMFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu MFU

@@ -93,6 +93,15 @@ public:
     void mMakeFIFO();
 
     /*
+     * void mMakeLIFO() - metoda realizujaca algorytm LIFO.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mMakeLIFO();
+
+    /*
      * void mMakeLRU() - metoda realizujaca algorytm LRU.
      * PRE:
      * - brak;
