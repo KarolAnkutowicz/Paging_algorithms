@@ -131,17 +131,6 @@ public:
     void mMakePage(typePaging aSeries, typePaging aIndex);
 
     /*
-     * typePaging mGetTheYoungestPage() - metoda znajdujaca
-     * i zwracajaca numer ostatnio uzywanej strony.
-     * PRE:
-     * - brak;
-     * POST:
-     * - zwrocenie numeru strony sposrod stron znajdujacych sie
-     * w ramkach (typ: typePaging).
-     */
-    typePaging mGetTheYoungestPage();
-
-    /*
      * typePaging mGetTheOldestPage() - metoda znajdujaca
      * i zwracajaca numer najdawniej uzywanej strony.
      * PRE:
@@ -151,6 +140,17 @@ public:
      * w ramkach (typ: typePaging).
      */
     typePaging mGetTheOldestPage();
+
+    /*
+     * typePaging mGetTheYoungestPage() - metoda znajdujaca
+     * i zwracajaca numer ostatnio uzywanej strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie numeru strony sposrod stron znajdujacych sie
+     * w ramkach (typ: typePaging).
+     */
+    typePaging mGetTheYoungestPage();
 
     /*
      * typePaging mGetLeastFrequentlyUsed() - metoda znajdujaca
@@ -182,6 +182,27 @@ public:
      * - brak.
      */
     void mInitializePages();
+
+    /*
+     * bool mBusyAllFrames() - metoda sprawdzajaca czy wszystkie
+     * ramki sa zajete.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie informacji czy wszystkie ramki sa pozajmowane
+     * (typ: bool).
+     */
+    bool mBusyAllFrames();
+
+    /*
+     * typePaging mGetFirstEmptyFrame() - metoda zwracajaca
+     * indeks pierwszej wolnej ramki (o ile taka istnieje!).
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie indeksy ramki.
+     */
+    typePaging mGetFirstEmptyFrame();
 
 
 

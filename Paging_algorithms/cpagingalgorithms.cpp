@@ -52,7 +52,30 @@ cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
  */
 void cPagingAlgorithms::mMakeFIFO()
 {
-
+    mResetAllSumNumberOfLack(); // zresetowanie wszystkich czastkowych sum brakow stron
+    mResetTotalNumberOfLacks(); // zresetowanie calkowitej sumy brakow stron
+    mResetAverageNumberOfLacks(); // zresetowanie sredniej liczby brakow stron
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach referencji
+    {
+        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach w serii
+        {
+            if (tabPages[tabReferences[i][j]].getInFrame() == true) // sprawdzenie czy strona jest juz w ramce
+                mMakePage(i, j); // jesli tak to "wykonujemy strone"
+            else // przypadek w ktorym nie ma jej w ramce
+            {
+                if (mBusyAllFrames() == false) // sprawdzamy czy jest jakas wolna ramka
+                {
+                    setFrame(mGetFirstEmptyFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // jesli tak to w pierwsza wolna wstawiamy zawartosc strony
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+                else // jesli nie ma to szukamy najstarszej strony
+                {
+                    // podstawiamy nowa zawartosc
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+            }
+        }
+    }
 }
 
 /*
@@ -100,6 +123,19 @@ void cPagingAlgorithms::mMakePage(typePaging aSeries, typePaging aIndex)
 }
 
 /*
+ * typePaging mGetTheOldestPage()
+ */
+typePaging cPagingAlgorithms::mGetTheOldestPage()
+{
+    typePaging vTheOldestPage = tabFrames[0]; // ustanawiamy, ze na poczatku najstarsza strona jest w pierwszej ramce
+    for (typePaging i = 0; i < (constFrame - 1); i++) // przechodzimy po wszystkich ramkach za wyjatkiem ostatniej
+        for (typePaging j = i + 1; j < constFrame; j++) // przechodzimy po wszystkich ramkach poczawszy od wskazanej
+            if (tabPages[tabFrames[i]].getAgeOfPage() < tabPages[tabFrames[j]].getAgeOfPage()) // porownujemy "wiek" wskazanych stron
+                vTheOldestPage = tabFrames[j]; // ustanawiamy nowa, najstarsza strone
+    return vTheOldestPage; // zwracamy numer najstarszej strony
+}
+
+/*
  * typePaging mGetTheYoungestPage()
  */
 typePaging cPagingAlgorithms::mGetTheYoungestPage()
@@ -112,19 +148,6 @@ typePaging cPagingAlgorithms::mGetTheYoungestPage()
     return vTheYoungestPage; // zwracamy numer najmlodszej strony
 }
 
-
-/*
- * typePaging mGetTheOldestPage()
- */
-typePaging cPagingAlgorithms::mGetTheOldestPage()
-{
-    typePaging vTheOldestPage = tabFrames[0]; // ustanawiamy, ze na poczatku najstarsza strona jest w pierwszej ramce
-    for (typePaging i = 0; i < (constFrame - 1); i++) // przechodzimy po wszystkich ramkach za wyjatkiem ostatniej
-        for (typePaging j = i + 1; j < constFrame; j++) // przechodzimy po wszystkich ramkach poczawszy od wskazanej
-            if (tabPages[tabFrames[i]].getAgeOfPage() < tabPages[tabFrames[j]].getAgeOfPage()) // porownujemy "wiek" wskazanych stron
-                vTheOldestPage = tabFrames[j]; // ustanawiamy nowa, najstarsza strone
-    return vTheOldestPage; // zwracamy numer najstarszej strony
-}
 
 /*
  * typePaging mGetLeastFrequentlyUsed()
@@ -159,6 +182,31 @@ void cPagingAlgorithms::mInitializePages()
 {
     for (typePaging i = 0; i < constPage; i++) // przejscie po wszystkich stronach
         tabPages[i] = cPage(i); // utworzenie strony
+}
+
+/*
+ * bool mBusyAllFrames()
+ */
+bool cPagingAlgorithms::mBusyAllFrames()
+{
+    for (typePaging i = 0; i < constFrame; i++) // przechodzimy po wszystkich ramkach
+        if (tabFrames[i] == constPage) // sprawdzamy czy ramka ma przypisana resetujaca wartosc
+            return false; // jesli tak to oznacza, ze nie wszystkie ramki sa zapelnione i zwracamy o tym informacje
+    return true; // domyslnie zwracamy informacje o tym, ze wszystkie ramki sa zajete
+}
+
+/*
+ * typePaging mGetFirstEmptyFrame()
+ */
+typePaging cPagingAlgorithms:: mGetFirstEmptyFrame()
+{
+    if (mBusyAllFrames() != true) // sprawdzamy czy wszystkie ramki sa zajete
+    {
+        for (typePaging i = 0; i < constFrame; i++) // przechodzimy po wszystkich ramkach
+            if (tabFrames[i] == constPage) // sprawdzamy czy ramka jest wolna
+                return i; // jesli tak to zwracamy numer ramki
+    }
+    return constPage; // domyslnie zwracamy numer strony spoza zakresu
 }
 
 
@@ -278,6 +326,8 @@ void cPagingAlgorithms::mResetFrames()
 {
     for (typePaging i = 0; i < constFrame; i++) // przejscie po wszystkich ramkach
         tabFrames[i] = constPage; // ustanowienie wartosci ramek
+    for (typePaging i = 0; i < constPage; i++) // przejscie po wszystkich stronach
+        tabPages[i].setInFrame(false); // ustanowienie braku przypisanie do jakiejkolwiek ramki
 }
 
 /*
