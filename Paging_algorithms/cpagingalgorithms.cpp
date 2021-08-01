@@ -110,7 +110,11 @@ typePaging cPagingAlgorithms::mGetTheOldestPage()
  */
 typePaging cPagingAlgorithms::mGetLeastFrequentlyUsed()
 {
-    return 0;
+    typePaging vLeastFrequentlyUsed = tabFrames[0]; // ustanawiamy, ze na poczatku najrzadziej uzywana strona jest w pierwszej ramce
+    for (typePaging i = 1; i < constFrame; i++) // przechodzimy po wszystkich ramkach z pominieciem pierwszej
+        if (tabPages[tabFrames[i]].getNumberUsingFrame() < vLeastFrequentlyUsed) // sprawdzamy czy liczba uzyc sprawdzanej strony jest mniejsza
+            vLeastFrequentlyUsed = tabFrames[i]; // jesli tak to indeks strony z ramki jest nasza nowa najrzadziej uzywana strona
+    return vLeastFrequentlyUsed; // zwracamy indeks najrzadziej uzywanej strony
 }
 
 /*
@@ -118,7 +122,11 @@ typePaging cPagingAlgorithms::mGetLeastFrequentlyUsed()
  */
 typePaging cPagingAlgorithms::mGetMostFrequentlyUsed()
 {
-    return 0;
+    typePaging vMostFrequentlyUsed = tabFrames[0]; // ustanawiamy, ze na poczatku najczesniej uzywana strona jest w pierwszej ramce
+    for (typePaging i = 1; i < constFrame; i++) // przechodzimy po wszystkich ramkach z pominieciem pierwszej
+        if (tabPages[tabFrames[i]].getNumberUsingFrame() > vMostFrequentlyUsed) // sprawdzamy czy liczba uzyc sprawdzanej strony jest wieksza
+            vMostFrequentlyUsed = tabFrames[i]; // jesli tak to indeks strony z ramki jest nasza nowa najczesciej uzywana strona
+    return vMostFrequentlyUsed; // zwracamy indeks najczesniej uzywanej strony
 }
 
 /*
