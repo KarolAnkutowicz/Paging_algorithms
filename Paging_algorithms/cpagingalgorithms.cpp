@@ -124,17 +124,11 @@ typePaging cPagingAlgorithms::mGetMostFrequentlyUsed()
  */
 void cPagingAlgorithms::mDrawReferences()
 {
-    typePaging vReference; // zmienna, ktorej wartosc bedziemy losowac
     mResetAllReferences(); // wyczyszczenie tablicy referencji
     srand(time_t(NULL)); // ustanowienie zmiennej losowej
     for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
-    {
         for (typePaging j = 0; i < constReference; j++) // przejscie po wszystkich procesach
-        {
-            vReference = rand() % constPage + 1; // losowanie referencji
-            tabReferences[i][j].setNumberPage(vReference); // ustanowienie wywolania
-        }
-    }
+            tabReferences[i][j] = rand() % constPage + 1; // losowanie i przypisanie referencji
 }
 
 /*

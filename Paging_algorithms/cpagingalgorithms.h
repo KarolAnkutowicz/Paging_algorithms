@@ -31,15 +31,15 @@ class cPagingAlgorithms
     cPage tabPages[constPage];
 
     /*
-     * cPage tabReferences[constSeries][constReference] -
+     * typePaging tabReferences[constSeries][constReference] -
      * tablica kolejnych wywolan stron.
      */
-    cPage tabReferences[constSeries][constReference];
+    typePaging tabReferences[constSeries][constReference];
 
     /*
-     * cPage *tabFrames[constFrame] - tablica dostepnych ramek.
+     * cPage tabFrames[constFrame] - tablica dostepnych ramek.
      */
-    cPage *tabFrames[constFrame];
+    typePaging tabFrames[constFrame];
 
     /*
      * double tabAverageNumberOfLack[constSeries] - tablica
@@ -141,7 +141,7 @@ public:
 
     /*
      * typePaging mGetTheOldestPage() - metoda znajdujaca
-     * i zwracajaca najdawniej uzywana strone.
+     * i zwracajaca numer najdawniej uzywanej strony.
      * PRE:
      * - brak;
      * POST:
@@ -152,7 +152,7 @@ public:
 
     /*
      * typePaging mGetLeastFrequentlyUsed() - metoda znajdujaca
-     * i zwracajaca najrzadziej uzywana strone.
+     * i zwracajaca numer najrzadziej uzywanej strony.
      * PRE:
      * - brak;
      * POST:
@@ -163,7 +163,7 @@ public:
 
     /*
      * typePaging mGetMostFrequentlyUsed() - metoda znajdujaca
-     * i zwracajaca naczesciej uzywana strone.
+     * i zwracajaca numer naczesciej uzywanej strone.
      * PRE:
      * - brak;
      * POST:
@@ -188,7 +188,7 @@ public:
     }
 
     /*
-     * cPage getReference(typePaging aSeries, typePaging aIndex) -
+     * typePaging getReference(typePaging aSeries, typePaging aIndex) -
      * metoda zwracajaca wartosc wskazanej referencji.
      * PRE:
      * - podanie numeru serii (typ: typePaging), podanie
@@ -196,20 +196,20 @@ public:
      * POST:
      * - zwrocenie referencji (typ: cPage).
      */
-    inline cPage getReference(typePaging aSeries, typePaging aIndex)
+    inline typePaging getReference(typePaging aSeries, typePaging aIndex)
     {
         return tabReferences[aSeries][aIndex];
     }
 
     /*
-     * cPage* getFrame(typePaging aIndex) - metoda zwracajaca
+     * typePaging getFrame(typePaging aIndex) - metoda zwracajaca
      * zawartosc wskazanej ramki.
      * PRE:
      * - podanie numeru indeksu (typ: typePaging);
      * POST:
      * - zwrocenie zawartosci ramki (typ: cPage).
      */
-    inline cPage* getFrame(typePaging aIndex)
+    inline typePaging getFrame(typePaging aIndex)
     {
         return tabFrames[aIndex];
     }
@@ -273,32 +273,32 @@ public:
     }
 
     /*
-     * void setReference(typePaging aSeries, typePaging aIndex, cPage aPage) -
+     * void setReference(typePaging aSeries, typePaging aIndex, typePaging aPage) -
      * metoda ustawiajaca referencje we wskazanym miejscu
      * tablicy referencji.
      * PRE:
      * - podanie numeru serii (typ: typePaging), podanie
-     * indeksu (typ: typePaging), podanie wartosci (typ: cPage);
+     * indeksu (typ: typePaging), podanie wartosci (typ: typePaging);
      * POST:
      * - brak.
      */
-    inline void setReference(typePaging aSeries, typePaging aIndex, cPage aPage)
+    inline void setReference(typePaging aSeries, typePaging aIndex, typePaging aPage)
     {
         tabReferences[aSeries][aIndex] = aPage;
     }
 
     /*
-     * void setFrame(typePaging aIndex, cPage aPage) - metoda
+     * void setFrame(typePaging aIndex, typePaging aPage) - metoda
      * ustawiajaca zawartosc wskazanej ramki.
      * PRE:
-     * - podanie indeksu (typ: typePaging), podanie strony
-     * (typ: cPage);
+     * - podanie indeksu (typ: typePaging), podanie numeru strony
+     * (typ: typePaging);
      * POST:
      * - brak.
      */
-    inline void setFrame(typePaging aIndex, cPage aPage)
+    inline void setFrame(typePaging aIndex, typePaging aPage)
     {
-        tabFrames[aIndex] = &tabPages[aPage];
+        tabFrames[aIndex] = aPage;
     }
 
 
