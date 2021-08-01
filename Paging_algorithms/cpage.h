@@ -130,7 +130,7 @@ public:
     }
 
     /*
-     * typePaging getNuberUsingFrame() - metoda zwracajaca
+     * typePaging getNumberUsingFrame() - metoda zwracajaca
      * informacje o zajmowanej ramce (o ile dana strona jest
      * w uzyciu!).
      * PRE:
@@ -139,7 +139,7 @@ public:
      * - zwrocenie wartosci pola vNumberUsingFrame (typ:
      * typePaging).
      */
-    inline typePaging getNuberUsingFrame()
+    inline typePaging getNumberUsingFrame()
     {
         return vNumberUsingFrame;
     }

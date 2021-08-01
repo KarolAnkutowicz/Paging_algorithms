@@ -15,6 +15,8 @@ using namespace std;
  */
 cPagingAlgorithms::cPagingAlgorithms()
 {
+    mInitializePages(); // inicjalizowanie stron
+    mInitailizeFrames(); // inicjalizowanie ramek
     mResetAllReferences(); // wyczyszczenie tablicy referencji
     mDrawReferences(); // wylosowanie referencji
     mWriteReferencesToFile(); // wypisanie referencji do pliku
@@ -30,6 +32,8 @@ cPagingAlgorithms::cPagingAlgorithms()
  */
 cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
 {
+    mInitializePages(); // inicjalizowanie stron
+    mInitailizeFrames(); // inicjalizowanie ramek
     mResetAllReferences(); // wyczyszczenie tablicy referencji
     mDrawReferences(); // wylosowanie referencji
     mWriteReferencesToFile(); // wypisanie referencji do pliku
@@ -115,6 +119,22 @@ typePaging cPagingAlgorithms::mGetLeastFrequentlyUsed()
 typePaging cPagingAlgorithms::mGetMostFrequentlyUsed()
 {
     return 0;
+}
+
+/*
+ * void mInitializePages()
+ */
+void cPagingAlgorithms::mInitializePages()
+{
+
+}
+
+/*
+ * void mInitailizeFrames()
+ */
+void cPagingAlgorithms::mInitailizeFrames()
+{
+
 }
 
 

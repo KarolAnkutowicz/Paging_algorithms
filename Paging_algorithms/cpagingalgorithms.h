@@ -172,6 +172,24 @@ public:
      */
     typePaging mGetMostFrequentlyUsed();
 
+    /*
+     * void mInitializePages() - metoda inicjalizujaca strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mInitializePages();
+
+    /*
+     * void mInitailizeFrames() - metoda inicjalizujaca ramki.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mInitailizeFrames();
+
 
 
     /*
@@ -273,7 +291,7 @@ public:
     }
 
     /*
-     * void setReference(typePaging aSeries, typePaging aIndex, typePaging aPage) -
+     * void setReference(typePaging aSeries, typePaging aIndex, typePaging aPageIndex) -
      * metoda ustawiajaca referencje we wskazanym miejscu
      * tablicy referencji.
      * PRE:
@@ -282,13 +300,13 @@ public:
      * POST:
      * - brak.
      */
-    inline void setReference(typePaging aSeries, typePaging aIndex, typePaging aPage)
+    inline void setReference(typePaging aSeries, typePaging aIndex, typePaging aPageIndex)
     {
-        tabReferences[aSeries][aIndex] = aPage;
+        tabReferences[aSeries][aIndex] = aPageIndex;
     }
 
     /*
-     * void setFrame(typePaging aIndex, typePaging aPage) - metoda
+     * void setFrame(typePaging aIndex, typePaging aPageIndex) - metoda
      * ustawiajaca zawartosc wskazanej ramki.
      * PRE:
      * - podanie indeksu (typ: typePaging), podanie numeru strony
@@ -296,9 +314,9 @@ public:
      * POST:
      * - brak.
      */
-    inline void setFrame(typePaging aIndex, typePaging aPage)
+    inline void setFrame(typePaging aIndex, typePaging aPageIndex)
     {
-        tabFrames[aIndex] = aPage;
+        tabFrames[aIndex] = aPageIndex;
     }
 
 
@@ -323,7 +341,7 @@ public:
      */
     inline void mResetReference(typePaging aSeries, typePaging aReference)
     {
-        tabReferences[aSeries][aReference] = 0;
+        tabReferences[aSeries][aReference] = constPage;
     }
 
     /*
