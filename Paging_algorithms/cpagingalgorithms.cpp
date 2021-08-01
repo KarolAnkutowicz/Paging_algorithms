@@ -16,7 +16,7 @@ using namespace std;
 cPagingAlgorithms::cPagingAlgorithms()
 {
     mInitializePages(); // inicjalizowanie stron
-    mInitailizeFrames(); // inicjalizowanie ramek
+    mResetFrames(); // zresetowanie zawartosci ramek
     mResetAllReferences(); // wyczyszczenie tablicy referencji
     mDrawReferences(); // wylosowanie referencji
     mWriteReferencesToFile(); // wypisanie referencji do pliku
@@ -33,7 +33,7 @@ cPagingAlgorithms::cPagingAlgorithms()
 cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
 {
     mInitializePages(); // inicjalizowanie stron
-    mInitailizeFrames(); // inicjalizowanie ramek
+    mResetFrames(); // zresetowanie zawartosci ramek
     mResetAllReferences(); // wyczyszczenie tablicy referencji
     mDrawReferences(); // wylosowanie referencji
     mWriteReferencesToFile(); // wypisanie referencji do pliku
@@ -126,15 +126,8 @@ typePaging cPagingAlgorithms::mGetMostFrequentlyUsed()
  */
 void cPagingAlgorithms::mInitializePages()
 {
-
-}
-
-/*
- * void mInitailizeFrames()
- */
-void cPagingAlgorithms::mInitailizeFrames()
-{
-
+    for (typePaging i = 0; i < constPage; i++) // przejscie po wszystkich stronach
+        tabPages[i] = cPage(i); // utworzenie strony
 }
 
 
@@ -227,6 +220,8 @@ void cPagingAlgorithms::mPrintAllReferences()
  */
 void cPagingAlgorithms::mResetFrames()
 {
+    for (typePaging i = 0; i < constFrame; i++) // przejscie po wszystkich ramkach
+        tabFrames[i] = constFrame; // ustanowienie wartosci ramek
 }
 
 /*
@@ -267,7 +262,7 @@ void cPagingAlgorithms::mCalculateTotalNumberOfLacks()
  */
 void cPagingAlgorithms::mWriteResultsToFile(enumAlgorithms aAlgorithms)
 {
-    // fifo, lru, lfu, mfu
+    // fifo, lifo, lru, lfu, mfu
     ofstream StreamOut; // zdefiniowanie strumienia
     switch(aAlgorithms)
     {
@@ -277,9 +272,9 @@ void cPagingAlgorithms::mWriteResultsToFile(enumAlgorithms aAlgorithms)
         case lfu: StreamOut.open("resultsLFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu LFU
         case mfu: StreamOut.open("resultsMFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu MFU
     }
-    StreamOut << "Total number of lacks: " << setw(5)
+    StreamOut << "Total number of lacks: " << setw(5) // wypisanie calkowitej liczby brakow stron
               << getTotalNumberOfLacks() << "    "
-              << "Average number of lacks: " << setw(4)
+              << "Average number of lacks: " << setw(4) // wypisanie sredniej liczby brakow stron
               << getAverageNumberOfLacks() << endl;
     StreamOut.close();
 }

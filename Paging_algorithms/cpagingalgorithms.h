@@ -181,15 +181,6 @@ public:
      */
     void mInitializePages();
 
-    /*
-     * void mInitailizeFrames() - metoda inicjalizujaca ramki.
-     * PRE:
-     * - brak;
-     * POST:
-     * - brak.
-     */
-    void mInitailizeFrames();
-
 
 
     /*
