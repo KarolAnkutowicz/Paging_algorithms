@@ -102,15 +102,6 @@ public:
     void mMakeLIFO();
 
     /*
-     * void mMakeLRU() - metoda realizujaca algorytm LRU.
-     * PRE:
-     * - brak;
-     * POST:
-     * - brak.
-     */
-    void mMakeLRU();
-
-    /*
      * void mMakeLFU() - metoda realizujaca algorytm LFU.
      * PRE:
      * - brak;
@@ -138,6 +129,17 @@ public:
      * - brak.
      */
     void mMakePage(typePaging aSeries, typePaging aIndex);
+
+    /*
+     * typePaging mGetTheYoungestPage() - metoda znajdujaca
+     * i zwracajaca numer ostatnio uzywanej strony.
+     * PRE:
+     * - brak;
+     * POST:
+     * - zwrocenie numeru strony sposrod stron znajdujacych sie
+     * w ramkach (typ: typePaging).
+     */
+    typePaging mGetTheYoungestPage();
 
     /*
      * typePaging mGetTheOldestPage() - metoda znajdujaca

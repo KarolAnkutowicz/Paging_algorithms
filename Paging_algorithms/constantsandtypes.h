@@ -14,7 +14,7 @@ using namespace std;
  * do znormalizowania argumentow potrzebnych do wywolywania
  * wskazanych metod.
  */
-enum enumAlgorithms {fifo, lifo, lru, lfu, mfu};
+enum enumAlgorithms {fifo, lifo, lfu, mfu};
 
 
 
