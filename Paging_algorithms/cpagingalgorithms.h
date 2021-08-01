@@ -37,9 +37,9 @@ class cPagingAlgorithms
     cPage tabReferences[constSeries][constReference];
 
     /*
-     * cPage tabFrames[constFrame] - tablica dostepnych ramek.
+     * cPage *tabFrames[constFrame] - tablica dostepnych ramek.
      */
-    cPage tabFrames[constFrame];
+    cPage *tabFrames[constFrame];
 
     /*
      * double tabAverageNumberOfLack[constSeries] - tablica
@@ -202,14 +202,14 @@ public:
     }
 
     /*
-     * cPage getFrame(typePaging aIndex) - metoda zwracajaca
+     * cPage* getFrame(typePaging aIndex) - metoda zwracajaca
      * zawartosc wskazanej ramki.
      * PRE:
      * - podanie numeru indeksu (typ: typePaging);
      * POST:
      * - zwrocenie zawartosci ramki (typ: cPage).
      */
-    inline cPage getFrame(typePaging aIndex)
+    inline cPage* getFrame(typePaging aIndex)
     {
         return tabFrames[aIndex];
     }
@@ -298,7 +298,7 @@ public:
      */
     inline void setFrame(typePaging aIndex, cPage aPage)
     {
-        tabFrames[aIndex] = aPage;
+        tabFrames[aIndex] = &tabPages[aPage];
     }
 
 

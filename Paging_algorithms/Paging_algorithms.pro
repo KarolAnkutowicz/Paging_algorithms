@@ -21,4 +21,5 @@ SOURCES += main.cpp \
 
 HEADERS += \
     cpage.h \
-    cpagingalgorithms.h
+    cpagingalgorithms.h \
+    constantsandtypes.h
