@@ -307,10 +307,7 @@ public:
      * POST:
      * - brak.
      */
-    inline void setFrame(typePaging aIndex, typePaging aPageIndex)
-    {
-        tabFrames[aIndex] = aPageIndex;
-    }
+    void setFrame(typePaging aIndex, typePaging aPageIndex);
 
 
 
