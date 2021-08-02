@@ -5,12 +5,15 @@
  */
 
 #include "constantsandtypes.h"
+#include "cpagingalgorithms.h"
 #include <iostream>
 
 using namespace std;
 
 int main()
 {
+    cPagingAlgorithms P(fifo);
+
     return 0;
 }
 

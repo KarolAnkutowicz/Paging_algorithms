@@ -36,13 +36,13 @@ cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
     mResetAllReferences(); // wyczyszczenie tablicy referencji
     mDrawReferences(); // wylosowanie referencji
     mWriteReferencesToFile(); // wypisanie referencji do pliku
-    switch(aAlgorithm) // wywolanie odpowiedniej metody, zgodnie z podanym argumentem
+    /*switch(aAlgorithm) // wywolanie odpowiedniej metody, zgodnie z podanym argumentem
     {
         case fifo: mMakeFIFO(); break; // wywolanie metody implmentujacej dzialanie algorytmu FIFO
         case lifo: mMakeLIFO(); break; // wywolanie metody implmentujacej dzialanie algorytmu LIFO
         case lfu: mMakeLFU(); break; // wywolanie metody implmentujacej dzialanie algorytmu LFU
         case mfu: mMakeMFU(); break; // wywolanie metody implmentujacej dzialanie algorytmu MFU
-    }
+    }*/
 }
 
 
@@ -70,12 +70,17 @@ void cPagingAlgorithms::mMakeFIFO()
                 }
                 else // jesli nie ma to szukamy najstarszej strony
                 {
-                    // podstawiamy nowa zawartosc
+                    tabPages[tabReferences[i][j]].mIncrementNumberOfLacks(); // nie mamy strony w ramce wiec wzrasta liczba brakow
+                    (tabSumNumberOfLack[i])++; // zwiekszenie sumy brakow w serii
+                    setFrame(tabPages[mGetTheOldestPage()].getNumberPage(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
                     mMakePage(i, j); // "wykonujemy strone"
                 }
             }
         }
     }
+    mCalculateTotalNumberOfLacks(); // zsumowanie calkowitej liczby brakow stron
+    mCalculateAverageNumberOfLacks(); // obliczenie sredniej liczby brakow stron
+    mWriteResultsToFile(fifo); // wypisanie rezultatow do pliku
 }
 
 /*
@@ -241,11 +246,11 @@ void cPagingAlgorithms::setFrame(typePaging aIndex, typePaging aPageIndex)
  */
 void cPagingAlgorithms::mDrawReferences()
 {
-    mResetAllReferences(); // wyczyszczenie tablicy referencji
+    //mResetAllReferences(); // wyczyszczenie tablicy referencji
     srand(time_t(NULL)); // ustanowienie zmiennej losowej
     for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
-        for (typePaging j = 0; i < constReference; j++) // przejscie po wszystkich procesach
-            tabReferences[i][j] = rand() % constPage + 1; // losowanie i przypisanie referencji
+        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich procesach
+            tabReferences[i][j] = rand() % constPage; // losowanie i przypisanie referencji
 }
 
 /*
@@ -286,11 +291,11 @@ void cPagingAlgorithms::mReadReferencesFromFile()
 void cPagingAlgorithms::mWriteReferencesToFile()
 {
     ofstream StreamOut; // utworzenie wyjsciowego strumienia plikowego
-    StreamOut.open("references"); // otwarcie strumienia
+    StreamOut.open("references.txt"); // otwarcie strumienia
     for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
     {
         for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach
-            StreamOut << tabReferences[i][j]; // wypisanie referencji
+            StreamOut << tabReferences[i][j] << " "; // wypisanie referencji
         StreamOut << endl; // nowa seria - nowa linijka tekstu
     }
     StreamOut.close(); // zamkniecie strumienia
@@ -302,7 +307,7 @@ void cPagingAlgorithms::mWriteReferencesToFile()
 void cPagingAlgorithms::mPrintSeries(typePaging aSeries)
 {
     for (typePaging i = 0; i < constReference; i++) // przejscie po wszystkich referencjach w serii
-        cout << tabReferences[aSeries][i]; // wypisanie referencji
+        cout << tabReferences[aSeries][i] << " "; // wypisanie referencji
 }
 
 /*
