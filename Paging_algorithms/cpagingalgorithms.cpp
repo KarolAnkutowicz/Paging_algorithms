@@ -51,10 +51,69 @@ cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
  */
 void cPagingAlgorithms::mMakeFIFO()
 {
+    // sprawdzamy czy strona jest w ramce
+        // jesli jest to ja wykonujemy
+    // jesli nie jej w zadnej ramce
+        // sprawdzamy czy mamy wolna ramke
+            // jesli tak to wstawiamy strone
+            // wykonujemy strone
+        // jesli nie ma wolnej ramki
+            // wybieramy ofiare
+            // podmieniamy strone
+            // wykonujemy strone
+
     mResetAllSumNumberOfLack(); // zresetowanie wszystkich czastkowych sum brakow stron
     mResetTotalNumberOfLacks(); // zresetowanie calkowitej sumy brakow stron
     mResetAverageNumberOfLacks(); // zresetowanie sredniej liczby brakow stron
-    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach referencji
+
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+    {
+        mResetFrames(); // zresetowanie zawartosci ramek
+        mClearAllAges(); // wyzerowanie wieku wszystkich stron
+        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach w serii
+        {
+            if (tabPages[tabReferences[i][j]].getInFrame() == true) // sprawdzenie czy strona jest juz w ramce
+            {
+                mMakePage(i, j); // jesli tak to "wykonujemy strone"
+                //cout << "Strona " << tabPages[tabReferences[i][j]].getNumberPage() << " jest juz w ramce" << endl;
+            }
+            else // strony nie ma aktualnie w zadnej ramce
+            {
+                if (mBusyAllFrames() == false) // sprawdzamy czy mamy przynajmniej jedna wolna ramke
+                {
+                    //cout << "Mamy wolna ramke " << mGetFirstEmptyFrame() << " dla strony " << tabPages[tabReferences[i][j]].getNumberPage() << endl;
+                    tabPages[tabReferences[i][j]].setInFrame(true); // ustanawiamy obecnosc strony w ramce
+                    setFrame(mGetFirstEmptyFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // umieszczamy strone w pierwszej wolnej ramce
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+                else // przypadek kiedy wszystkie ramki sa zajete
+                {
+                    //cout << "Nie mamy wolnej ramki, musimy podmienic strone " << tabPages[mGetTheOldestPage()] << " z ramki " << tabPages[mGetTheOldestPage()].getNumberUsingFrame() << " na strone " << tabPages[tabReferences[i][j]].getNumberPage() << endl;
+                    tabPages[tabReferences[i][j]].mIncrementNumberOfLacks(); // nie mamy strony w ramce wiec wzrasta liczba brakow
+                    (tabSumNumberOfLack[i])++; // zwiekszenie sumy brakow w serii
+                    setFrame(tabPages[mGetTheOldestPage()].getNumberUsingFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+            }
+            /*for (typePaging i = 0; i < constPage; i++)
+            {
+                cout << tabPages[i].getInFrame();
+                if (tabPages[i].getInFrame() == true)
+                    cout << "(" << tabPages[i].getNumberUsingFrame() << ")";
+                else
+                    cout << "(-)";
+                cout << "   ";
+            }
+            cout << endl;*/
+            mPrintFrames();
+            cout << tabPages[tabFrames[0]].getAgeOfPage() << "   " << tabPages[tabFrames[1]].getAgeOfPage() << "   " << tabPages[tabFrames[2]].getAgeOfPage() << "   " << endl;
+        }
+        cout << endl;
+    }
+
+
+
+    /*for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach referencji
     {
         mResetFrames(); // zresetowanie zawartosci ramek
         for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach w serii
@@ -86,18 +145,18 @@ void cPagingAlgorithms::mMakeFIFO()
                       //cout << "    tabSumNumberOfLack[i] = " << tabSumNumberOfLack[i] << endl;
                       //cout << "    tabPages[mGetTheOldestPage()].getNumberPage() = " << tabPages[mGetTheOldestPage()].getNumberPage() << endl;
                       //cout << "    tabPages[tabReferences[i][j]].getNumberPage() = " << tabPages[tabReferences[i][j]].getNumberPage() << endl;
-                    setFrame(tabPages[mGetTheOldestPage()].getNumberPage(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
+                    setFrame(tabPages[mGetTheOldestPage()].getNumberUsingFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
                     mMakePage(i, j); // "wykonujemy strone"
                 }
             }
-              //mPrintFrames();
+              mPrintFrames();
 
         }
         cout << endl;
     }
     mCalculateTotalNumberOfLacks(); // zsumowanie calkowitej liczby brakow stron
     mCalculateAverageNumberOfLacks(); // obliczenie sredniej liczby brakow stron
-    mWriteResultsToFile(fifo); // wypisanie rezultatow do pliku
+    mWriteResultsToFile(fifo); // wypisanie rezultatow do pliku*/
 }
 
 /*
@@ -139,7 +198,10 @@ void cPagingAlgorithms::mMakePage(typePaging aSeries, typePaging aIndex)
                 tabPages[tabFrames[i]].mIncrementNumberOfUsing(); // rosnie liczba uzyc strony
             }
             else
-                tabPages[tabFrames[i]].mIncrementAgeOfPage(); // rosnie "wiek" strony
+            {
+                if (tabPages[tabFrames[i]].getNumberPage() != constPage)
+                    tabPages[tabFrames[i]].mIncrementAgeOfPage(); // rosnie "wiek" strony
+            }
         }
     }
 }
@@ -151,9 +213,15 @@ typePaging cPagingAlgorithms::mGetTheOldestPage()
 {
     typePaging vTheOldestPage = tabFrames[0]; // ustanawiamy, ze na poczatku najstarsza strona jest w pierwszej ramce
     for (typePaging i = 0; i < (constFrame - 1); i++) // przechodzimy po wszystkich ramkach za wyjatkiem ostatniej
+    {
         for (typePaging j = i + 1; j < constFrame; j++) // przechodzimy po wszystkich ramkach poczawszy od wskazanej
+        {
+            //cout << "    i = " << tabPages[tabFrames[i]].getAgeOfPage() << ", j = " << tabPages[tabFrames[j]].getAgeOfPage() << endl;
             if (tabPages[tabFrames[i]].getAgeOfPage() < tabPages[tabFrames[j]].getAgeOfPage()) // porownujemy "wiek" wskazanych stron
                 vTheOldestPage = tabFrames[j]; // ustanawiamy nowa, najstarsza strone
+        }
+    }
+    //cout << "    The oldest: " << vTheOldestPage << endl;
     return vTheOldestPage; // zwracamy numer najstarszej strony
 }
 
@@ -220,7 +288,7 @@ bool cPagingAlgorithms::mBusyAllFrames()
 /*
  * typePaging mGetFirstEmptyFrame()
  */
-typePaging cPagingAlgorithms:: mGetFirstEmptyFrame()
+typePaging cPagingAlgorithms::mGetFirstEmptyFrame()
 {
     if (mBusyAllFrames() != true) // sprawdzamy czy wszystkie ramki sa zajete
     {
@@ -230,6 +298,25 @@ typePaging cPagingAlgorithms:: mGetFirstEmptyFrame()
     }
     return constPage; // domyslnie zwracamy numer strony spoza zakresu
 }
+
+/*
+ * void mClearAllAges()
+ */
+void cPagingAlgorithms::mClearAllAges()
+{
+    for (typePaging i = 0; i < constPage; i++) // przejscie po wszystkich stronach
+        tabPages[i].mResetAgeOfPage(); // zrestowanie wieku wskazanej strony
+}
+
+/*
+ * void mClearAllUsings()
+ */
+void cPagingAlgorithms::mClearAllUsings()
+{
+    for (typePaging i = 0; i < constPage; i++) // przejscie po wszystkich stronach
+        tabPages[i].mResetNumberOfUsing(); // zresetowanie liczby uzyc wskazanej strony
+}
+
 
 
 
@@ -251,6 +338,7 @@ void cPagingAlgorithms::setFrame(typePaging aIndex, typePaging aPageIndex)
             }
             tabFrames[i] = aPageIndex; // do ramki wstawiamy indeks wstawianej strony
             tabPages[tabFrames[i]].setInFrame(true); // potwierdzamy, ze strona znajduje sie w jakiejs ramce
+            tabPages[tabFrames[i]].setNumberUsingFrame(aIndex); // ustanowienie numeru zajmowanej ramki
             tabPages[tabFrames[i]].mResetAgeOfPage(); // bedziemy liczyc jej "wiek" od nowa
         }
     }

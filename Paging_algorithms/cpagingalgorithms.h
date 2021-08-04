@@ -204,6 +204,24 @@ public:
      */
     typePaging mGetFirstEmptyFrame();
 
+    /*
+     * void mClearAllAges() - metoda resetujaca wiek wszystkich stron.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mClearAllAges();
+
+    /*
+     * void mClearAllUsings() - metoda resetujaca uzycie wszystkieh stron.
+     * PRE:
+     * - brak;
+     * POST:
+     * - brak.
+     */
+    void mClearAllUsings();
+
 
 
     /*
