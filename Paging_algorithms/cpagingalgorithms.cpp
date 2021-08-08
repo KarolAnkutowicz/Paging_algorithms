@@ -92,6 +92,41 @@ void cPagingAlgorithms::mMakeFIFO()
  */
 void cPagingAlgorithms::mMakeLIFO()
 {
+    mResetAllSumNumberOfLack(); // zresetowanie wszystkich czastkowych sum brakow stron
+    mResetTotalNumberOfLacks(); // zresetowanie calkowitej sumy brakow stron
+    mResetAverageNumberOfLacks(); // zresetowanie sredniej liczby brakow stron
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+    {
+        mResetFrames(); // zresetowanie zawartosci ramek
+        mClearAllAges(); // wyzerowanie wieku wszystkich stron
+        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach w serii
+        {
+            if (tabPages[tabReferences[i][j]].getInFrame() == true) // sprawdzenie czy strona jest juz w ramce
+            {
+                mMakePage(i, j); // jesli tak to "wykonujemy strone"
+            }
+            else // strony nie ma aktualnie w zadnej ramce
+            {
+                if (mBusyAllFrames() == false) // sprawdzamy czy mamy przynajmniej jedna wolna ramke
+                {
+                    tabPages[tabReferences[i][j]].setInFrame(true); // ustanawiamy obecnosc strony w ramce
+                    setFrame(mGetFirstEmptyFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // umieszczamy strone w pierwszej wolnej ramce
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+                else // przypadek kiedy wszystkie ramki sa zajete
+                {
+                    tabPages[tabReferences[i][j]].mIncrementNumberOfLacks(); // nie mamy strony w ramce wiec wzrasta liczba brakow
+                    (tabSumNumberOfLack[i])++; // zwiekszenie sumy brakow w serii
+                    setFrame(tabPages[mGetTheYoungestPage()].getNumberUsingFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+            }
+        }
+    }
+    mCalculateTotalNumberOfLacks(); // obliczenie calkowitej liczby brakow stron
+    mCalculateAverageNumberOfLacks(); // obliczenie sredniej liczby brakow stron
+    mWriteResultsToFile(lifo); // wypisanie rezultatow do pliku
+
 
 }
 
@@ -416,8 +451,10 @@ void cPagingAlgorithms::mWriteResultsToFile(enumAlgorithms aAlgorithms)
         case lfu: StreamOut.open("resultsLFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu LFU
         case mfu: StreamOut.open("resultsMFU.txt"); break; // otwarcie strumienia dla wynikow algorytmu MFU
     }
+    for (typePaging i = 0; i < constSeries; i++)
+        StreamOut << "Lacks series " << i << ": " << tabSumNumberOfLack[i] << endl;
     StreamOut << "Total number of lacks: " << setw(5) // wypisanie calkowitej liczby brakow stron
-              << getTotalNumberOfLacks() << "    "
+              << getTotalNumberOfLacks() << "    " << endl
               << "Average number of lacks: " << setw(4) // wypisanie sredniej liczby brakow stron
               << getAverageNumberOfLacks() << endl;
     StreamOut.close();
