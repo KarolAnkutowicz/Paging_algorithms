@@ -1,0 +1,12 @@
+Lacks series 0: 4
+Lacks series 1: 2
+Lacks series 2: 3
+Lacks series 3: 0
+Lacks series 4: 1
+Lacks series 5: 1
+Lacks series 6: 3
+Lacks series 7: 2
+Lacks series 8: 3
+Lacks series 9: 2
+Total number of lacks:    21    
+Average number of lacks:    2
