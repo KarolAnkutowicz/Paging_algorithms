@@ -34,7 +34,6 @@ cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
     mResetAllReferences(); // wyczyszczenie tablicy referencji
     mDrawReferences(); // wylosowanie referencji
     mWriteReferencesToFile(); // wypisanie referencji do pliku
-      //mPrintAllReferences();
     switch(aAlgorithm) // wywolanie odpowiedniej metody, zgodnie z podanym argumentem
     {
         case fifo: mMakeFIFO(); break; // wywolanie metody implmentujacej dzialanie algorytmu FIFO
@@ -139,7 +138,7 @@ void cPagingAlgorithms::mMakeLFU()
     for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
     {
         mResetFrames(); // zresetowanie zawartosci ramek
-        mClearAllAges(); // wyzerowanie wieku wszystkich stron
+        mClearAllUsings(); // wyzerowanie wieku wszystkich stron
         for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach w serii
         {
             if (tabPages[tabReferences[i][j]].getInFrame() == true) // sprawdzenie czy strona jest juz w ramce
@@ -162,11 +161,7 @@ void cPagingAlgorithms::mMakeLFU()
                     mMakePage(i, j); // "wykonujemy strone"
                 }
             }
-            for (typePaging i = 0; i < constFrame; i++)
-                cout << tabFrames[i] << "   ";
-            cout << endl;
         }
-        cout << endl;
     }
     mCalculateTotalNumberOfLacks(); // obliczenie calkowitej liczby brakow stron
     mCalculateAverageNumberOfLacks(); // obliczenie sredniej liczby brakow stron
@@ -178,7 +173,40 @@ void cPagingAlgorithms::mMakeLFU()
  */
 void cPagingAlgorithms::mMakeMFU()
 {
-
+    mResetAllSumNumberOfLack(); // zresetowanie wszystkich czastkowych sum brakow stron
+    mResetTotalNumberOfLacks(); // zresetowanie calkowitej sumy brakow stron
+    mResetAverageNumberOfLacks(); // zresetowanie sredniej liczby brakow stron
+    for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
+    {
+        mResetFrames(); // zresetowanie zawartosci ramek
+        mClearAllUsings(); // wyzerowanie wieku wszystkich stron
+        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach w serii
+        {
+            if (tabPages[tabReferences[i][j]].getInFrame() == true) // sprawdzenie czy strona jest juz w ramce
+            {
+                mMakePage(i, j); // jesli tak to "wykonujemy strone"
+            }
+            else // strony nie ma aktualnie w zadnej ramce
+            {
+                if (mBusyAllFrames() == false) // sprawdzamy czy mamy przynajmniej jedna wolna ramke
+                {
+                    tabPages[tabReferences[i][j]].setInFrame(true); // ustanawiamy obecnosc strony w ramce
+                    setFrame(mGetFirstEmptyFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // umieszczamy strone w pierwszej wolnej ramce
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+                else // przypadek kiedy wszystkie ramki sa zajete
+                {
+                    tabPages[tabReferences[i][j]].mIncrementNumberOfLacks(); // nie mamy strony w ramce wiec wzrasta liczba brakow
+                    (tabSumNumberOfLack[i])++; // zwiekszenie sumy brakow w serii
+                    setFrame(tabPages[mGetMostFrequentlyUsed()].getNumberUsingFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
+                    mMakePage(i, j); // "wykonujemy strone"
+                }
+            }
+        }
+    }
+    mCalculateTotalNumberOfLacks(); // obliczenie calkowitej liczby brakow stron
+    mCalculateAverageNumberOfLacks(); // obliczenie sredniej liczby brakow stron
+    mWriteResultsToFile(mfu); // wypisanie rezultatow do pliku
 }
 
 /*
@@ -208,18 +236,17 @@ void cPagingAlgorithms::mMakePage(typePaging aSeries, typePaging aIndex)
  */
 typePaging cPagingAlgorithms::mGetTheOldestPage()
 {
-    typePaging vTheOldestPage = tabFrames[0]; // ustanawiamy, ze na poczatku najstarsza strona jest w pierwszej ramce
-    for (typePaging i = 0; i < (constFrame - 1); i++) // przechodzimy po wszystkich ramkach za wyjatkiem ostatniej
+    typePaging vTheOldestPage = tabPages[tabFrames[0]].getAgeOfPage(); // ustanawiamy, ze na poczatku najstarsza strona jest w pierwszej ramce i przypisujemy jej wiek
+    typePaging vIndex = 0; // przypisujemy indeks ustanowionej ramki
+    for (typePaging i = 1; i < constFrame; i++) // przechodzimy przez wszystkie ramki pomijajac pierwsza
     {
-        for (typePaging j = i + 1; j < constFrame; j++) // przechodzimy po wszystkich ramkach poczawszy od wskazanej
+        if (tabPages[tabFrames[i]].getAgeOfPage() > vTheOldestPage) // sprawdzamy czy wiek strony z porownywanej ramki jest wiekszy
         {
-            //cout << "    i = " << tabPages[tabFrames[i]].getAgeOfPage() << ", j = " << tabPages[tabFrames[j]].getAgeOfPage() << endl;
-            if (tabPages[tabFrames[i]].getAgeOfPage() < tabPages[tabFrames[j]].getAgeOfPage()) // porownujemy "wiek" wskazanych stron
-                vTheOldestPage = tabFrames[j]; // ustanawiamy nowa, najstarsza strone
+            vTheOldestPage = tabPages[tabFrames[i]].getAgeOfPage(); // jesli strona jest starsza to przypisujemy jej wiek
+            vIndex = i; // mamy nowy indeks najstarszej ramki
         }
     }
-    //cout << "    The oldest: " << vTheOldestPage << endl;
-    return vTheOldestPage; // zwracamy numer najstarszej strony
+    return vIndex; // zwracamy indeks najstarszej strony
 }
 
 /*
@@ -227,12 +254,17 @@ typePaging cPagingAlgorithms::mGetTheOldestPage()
  */
 typePaging cPagingAlgorithms::mGetTheYoungestPage()
 {
-    typePaging vTheYoungestPage = tabFrames[0]; // ustanawiamy, ze na poczatku najmlodsza strona jest w pierwszej ramce
-    for (typePaging i = 0; i < (constFrame - 1); i++) // przechodzimy po wszystkich ramkach za wyjatkiem ostatniej
-        for (typePaging j = i + 1; j < constFrame; j++) // przechodzimy po wszystkich ramkach poczawszy od wskazanej
-            if (tabPages[tabFrames[i]].getAgeOfPage() > tabPages[tabFrames[j]].getAgeOfPage()) // porownujemy "wiek" wskazanych stron
-                vTheYoungestPage = tabFrames[j]; // ustanawiamy nowa, najmlodsza strone
-    return vTheYoungestPage; // zwracamy numer najmlodszej strony
+    typePaging vTheYoungestPage = tabPages[tabFrames[0]].getAgeOfPage(); // ustanawiamy, ze na poczatku najmlodsza strona jest w pierwszej ramce i przypisujemy jej wiek
+    typePaging vIndex = 0; // przypisujemy indeks ustanowionej ramki
+    for (typePaging i = 1; i < constFrame; i++) // przechodzimy przez wszystkie ramki pomijajac pierwsza
+    {
+        if (tabPages[tabFrames[i]].getAgeOfPage() < vTheYoungestPage) // sprawdzamy czy wiek strony z porownywanej ramki jest mniejszy
+        {
+            vTheYoungestPage = tabPages[tabFrames[i]].getAgeOfPage(); // jesli strona jest mlodsza to przypisujemy jej wiek
+            vIndex = i; // mamy nowy indeks najmlodszej ramki
+        }
+    }
+    return vIndex; // zwracamy indeks najmlodszej strony
 }
 
 
@@ -241,12 +273,17 @@ typePaging cPagingAlgorithms::mGetTheYoungestPage()
  */
 typePaging cPagingAlgorithms::mGetLeastFrequentlyUsed()
 {
-    typePaging vLeastFrequentlyUsed = tabFrames[0]; // ustanawiamy, ze na poczatku najrzadziej uzywana strona jest w pierwszej ramce
-    for (typePaging i = 0; i < (constFrame - 1); i++) // przechodzimy po wszystkich ramkach za wyjatkiem ostatniej
-        for (typePaging j = i + 1; j < constFrame; j++) // przechodzimy po wszystkich ramkach poczawszy od wskazanej
-            if (tabPages[tabFrames[i]].getNumberUsingFrame() > tabPages[tabFrames[j]].getNumberUsingFrame()) // porownujemy liczbe uzyc wskazanych stron
-                vLeastFrequentlyUsed = tabFrames[j]; // ustanawiamy nowa, najrzadziej uzywana strone
-    return vLeastFrequentlyUsed; // zwracamy numer najrzadziej uzywanej strony
+    typePaging vLeastFrequentlyUsed = tabPages[tabFrames[0]].getNumberOfUsing(); // ustanawiamy, ze na poczatku najrzadziej uzywana strona jest w pierwszej ramce i przypisujemy jej wiek
+    typePaging vIndex = 0; // przypisujemy indeks ustanowionej ramki
+    for (typePaging i = 1; i < constFrame; i++) // przechodzimy przez wszystkie ramki pomijajac pierwsza
+    {
+        if (tabPages[tabFrames[i]].getNumberOfUsing() < vLeastFrequentlyUsed) // sprawdzamy czy liczba uzyc strony z porownywanej ramki jest mniejsza
+        {
+            vLeastFrequentlyUsed = tabPages[tabFrames[i]].getAgeOfPage(); // jesli strona jest rzadziej uzywana to przypisujemy jej liczbe uzyc
+            vIndex = i; // mamy nowy indeks najrzadziej uzywanej ramki
+        }
+    }
+    return vIndex; // zwracamy indeks najrzadziej uzywanej strony
 }
 
 /*
@@ -254,12 +291,17 @@ typePaging cPagingAlgorithms::mGetLeastFrequentlyUsed()
  */
 typePaging cPagingAlgorithms::mGetMostFrequentlyUsed()
 {
-    typePaging vMostFrequentlyUsed = tabFrames[0]; // ustanawiamy, ze na poczatku najczesciej uzywana strona jest w pierwszej ramce
-    for (typePaging i = 0; i < (constFrame - 1); i++) // przechodzimy po wszystkich ramkach za wyjatkiem ostatniej
-        for (typePaging j = i + 1; j < constFrame; j++) // przechodzimy po wszystkich ramkach poczawszy od wskazanej
-            if (tabPages[tabFrames[i]].getNumberUsingFrame() < tabPages[tabFrames[j]].getNumberUsingFrame()) // porownujemy liczbe uzyc wskazanych stron
-                vMostFrequentlyUsed = tabFrames[j]; // ustanawiamy nowa, najczesciej uzywana strone
-    return vMostFrequentlyUsed; // zwracamy numer najczesciej uzywanej strony
+    typePaging vMostFrequentlyUsed = tabPages[tabFrames[0]].getNumberOfUsing(); // ustanawiamy, ze na poczatku najczesciej uzywana strona jest w pierwszej ramce i przypisujemy jej wiek
+    typePaging vIndex = 0; // przypisujemy indeks ustanowionej ramki
+    for (typePaging i = 1; i < constFrame; i++) // przechodzimy przez wszystkie ramki pomijajac pierwsza
+    {
+        if (tabPages[tabFrames[i]].getNumberOfUsing() > vMostFrequentlyUsed) // sprawdzamy czy liczba uzyc strony z porownywanej ramki jest wieksza
+        {
+            vMostFrequentlyUsed = tabPages[tabFrames[i]].getAgeOfPage(); // jesli strona jest czesciej uzywana to przypisujemy jej liczbe uzyc
+            vIndex = i; // mamy nowy indeks najczesciej uzywanej ramki
+        }
+    }
+    return vIndex; // zwracamy indeks najczesciej uzywanej strony
 }
 
 /*

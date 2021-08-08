@@ -12,7 +12,7 @@ using namespace std;
 
 int main()
 {
-    cPagingAlgorithms P(lfu);
+    cPagingAlgorithms P;
 
     return 0;
 }
