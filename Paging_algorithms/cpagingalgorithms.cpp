@@ -51,21 +51,9 @@ cPagingAlgorithms::cPagingAlgorithms(enumAlgorithms aAlgorithm)
  */
 void cPagingAlgorithms::mMakeFIFO()
 {
-    // sprawdzamy czy strona jest w ramce
-        // jesli jest to ja wykonujemy
-    // jesli nie jej w zadnej ramce
-        // sprawdzamy czy mamy wolna ramke
-            // jesli tak to wstawiamy strone
-            // wykonujemy strone
-        // jesli nie ma wolnej ramki
-            // wybieramy ofiare
-            // podmieniamy strone
-            // wykonujemy strone
-
     mResetAllSumNumberOfLack(); // zresetowanie wszystkich czastkowych sum brakow stron
     mResetTotalNumberOfLacks(); // zresetowanie calkowitej sumy brakow stron
     mResetAverageNumberOfLacks(); // zresetowanie sredniej liczby brakow stron
-
     for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
     {
         mResetFrames(); // zresetowanie zawartosci ramek
@@ -75,88 +63,28 @@ void cPagingAlgorithms::mMakeFIFO()
             if (tabPages[tabReferences[i][j]].getInFrame() == true) // sprawdzenie czy strona jest juz w ramce
             {
                 mMakePage(i, j); // jesli tak to "wykonujemy strone"
-                //cout << "Strona " << tabPages[tabReferences[i][j]].getNumberPage() << " jest juz w ramce" << endl;
             }
             else // strony nie ma aktualnie w zadnej ramce
             {
                 if (mBusyAllFrames() == false) // sprawdzamy czy mamy przynajmniej jedna wolna ramke
                 {
-                    //cout << "Mamy wolna ramke " << mGetFirstEmptyFrame() << " dla strony " << tabPages[tabReferences[i][j]].getNumberPage() << endl;
                     tabPages[tabReferences[i][j]].setInFrame(true); // ustanawiamy obecnosc strony w ramce
                     setFrame(mGetFirstEmptyFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // umieszczamy strone w pierwszej wolnej ramce
                     mMakePage(i, j); // "wykonujemy strone"
                 }
                 else // przypadek kiedy wszystkie ramki sa zajete
                 {
-                    //cout << "Nie mamy wolnej ramki, musimy podmienic strone " << tabPages[mGetTheOldestPage()] << " z ramki " << tabPages[mGetTheOldestPage()].getNumberUsingFrame() << " na strone " << tabPages[tabReferences[i][j]].getNumberPage() << endl;
                     tabPages[tabReferences[i][j]].mIncrementNumberOfLacks(); // nie mamy strony w ramce wiec wzrasta liczba brakow
                     (tabSumNumberOfLack[i])++; // zwiekszenie sumy brakow w serii
                     setFrame(tabPages[mGetTheOldestPage()].getNumberUsingFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
                     mMakePage(i, j); // "wykonujemy strone"
                 }
             }
-            /*for (typePaging i = 0; i < constPage; i++)
-            {
-                cout << tabPages[i].getInFrame();
-                if (tabPages[i].getInFrame() == true)
-                    cout << "(" << tabPages[i].getNumberUsingFrame() << ")";
-                else
-                    cout << "(-)";
-                cout << "   ";
-            }
-            cout << endl;*/
-            mPrintFrames();
-            cout << tabPages[tabFrames[0]].getAgeOfPage() << "   " << tabPages[tabFrames[1]].getAgeOfPage() << "   " << tabPages[tabFrames[2]].getAgeOfPage() << "   " << endl;
         }
-        cout << endl;
     }
-
-
-
-    /*for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach referencji
-    {
-        mResetFrames(); // zresetowanie zawartosci ramek
-        for (typePaging j = 0; j < constReference; j++) // przejscie po wszystkich referencjach w serii
-        {
-              //cout << "WYWOLUJEMY STRONE NR " << tabReferences[i][j] << endl;
-            //mPrintFrames();
-            if (tabPages[tabReferences[i][j]].getInFrame() == true) // sprawdzenie czy strona jest juz w ramce
-            {
-                  //cout << "    tabPages[tabReferences[i][j]].getInFrame() = " << tabPages[tabReferences[i][j]].getInFrame() << endl;
-                  //cout << "    Strona jest juz w ramce" << endl;
-                mMakePage(i, j); // jesli tak to "wykonujemy strone"
-            }
-            else // przypadek w ktorym nie ma jej w ramce
-            {
-                if (mBusyAllFrames() == false) // sprawdzamy czy jest jakas wolna ramka
-                {
-                      //cout << "    mGetFirstEmptyFrame() = " << mGetFirstEmptyFrame() << endl;
-                      //cout << "    tabPages[tabReferences[i][j]].getNumberPage() = " << tabPages[tabReferences[i][j]].getNumberPage() << endl;
-                      //cout << "    Strona zajmie wolna ramke" << endl;
-                    setFrame(mGetFirstEmptyFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // jesli tak to w pierwsza wolna wstawiamy zawartosc strony
-                    mMakePage(i, j); // "wykonujemy strone"
-                }
-                else // jesli nie ma to szukamy najstarszej strony
-                {
-                      //cout << "    Strona musi zajac juz zajeta ramke" << endl;
-                    tabPages[tabReferences[i][j]].mIncrementNumberOfLacks(); // nie mamy strony w ramce wiec wzrasta liczba brakow
-                    (tabSumNumberOfLack[i])++; // zwiekszenie sumy brakow w serii
-                      //cout << "    tabPages[tabReferences[i][j]].getNumberOfLacks() = " << tabPages[tabReferences[i][j]].getNumberOfLacks() << endl;
-                      //cout << "    tabSumNumberOfLack[i] = " << tabSumNumberOfLack[i] << endl;
-                      //cout << "    tabPages[mGetTheOldestPage()].getNumberPage() = " << tabPages[mGetTheOldestPage()].getNumberPage() << endl;
-                      //cout << "    tabPages[tabReferences[i][j]].getNumberPage() = " << tabPages[tabReferences[i][j]].getNumberPage() << endl;
-                    setFrame(tabPages[mGetTheOldestPage()].getNumberUsingFrame(), tabPages[tabReferences[i][j]].getNumberPage()); // podstawiamy nowa zawartosc
-                    mMakePage(i, j); // "wykonujemy strone"
-                }
-            }
-              mPrintFrames();
-
-        }
-        cout << endl;
-    }
-    mCalculateTotalNumberOfLacks(); // zsumowanie calkowitej liczby brakow stron
+    mCalculateTotalNumberOfLacks(); // obliczenie calkowitej liczby brakow stron
     mCalculateAverageNumberOfLacks(); // obliczenie sredniej liczby brakow stron
-    mWriteResultsToFile(fifo); // wypisanie rezultatow do pliku*/
+    mWriteResultsToFile(fifo); // wypisanie rezultatow do pliku
 }
 
 /*
@@ -188,21 +116,20 @@ void cPagingAlgorithms::mMakeMFU()
  */
 void cPagingAlgorithms::mMakePage(typePaging aSeries, typePaging aIndex)
 {
-    if (tabPages[tabReferences[aSeries][aIndex]].getInFrame() == true) // sprawdzamy czy dana strona jest w ogole przypisana do ramki
+    for (typePaging i = 0; i < constPage; i++) // przechodzimy po wszystkich stronach
     {
-        for (typePaging i = 0; i < constFrame; i++) // przechodzimy przez wszystkie ramki
+        if (tabPages[i].getInFrame() == true) // sprawdzamy czy strona zajmuje jakakolwiek ramke
         {
-            if (tabPages[tabFrames[i]].getNumberPage() == tabPages[tabReferences[aSeries][aIndex]].getNumberPage()) // sprawdzamy czy odnosimy sie do strony, ktora wywolujemy
+            if (tabPages[i].getNumberPage() == tabReferences[aSeries][aIndex]) // sprawdzamy czy wskazana strona to ta do ktorej sie odnosimy
             {
-                tabPages[tabFrames[i]].mResetAgeOfPage(); // wiek strony sie "zeruje"
-                tabPages[tabFrames[i]].mIncrementNumberOfUsing(); // rosnie liczba uzyc strony
+                tabPages[i].mResetAgeOfPage(); // wiek strony sie zeruje
+                tabPages[i].mIncrementNumberOfUsing(); // wzrasta liczba uzyc strony
             }
             else
-            {
-                if (tabPages[tabFrames[i]].getNumberPage() != constPage)
-                    tabPages[tabFrames[i]].mIncrementAgeOfPage(); // rosnie "wiek" strony
-            }
+                tabPages[i].mIncrementAgeOfPage(); // rosnie wiek strony
         }
+        else // jesli strona nie zajmuje zadnej ramki
+            continue; // przechodzimy do wykonania kolejnego cyklu petli
     }
 }
 
