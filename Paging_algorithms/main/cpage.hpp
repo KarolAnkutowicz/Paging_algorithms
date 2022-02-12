@@ -4,60 +4,19 @@
  * file: cpage.hpp
  */
 
-#ifndef CPAGE_HPP
-#define CPAGE_HPP
+#pragma once
 
 #include "constantsandtypes.hpp"
 #include <iomanip>
 #include <iostream>
-
-using namespace std;
 
 /*
  * cPage - klasa modelujaca pojedyncza strone
  */
 class cPage
 {
-    /********** PRIVATE: BEGINNING **********/
+/********** PUBLIC: BEGINNING **********/
 
-    /*
-     * typePaging vNumberPage - numer strony.
-     */
-    typePaging vNumberPage;
-
-    /*
-     * bool vUsingNow - zmienna okreslajaca czy strona
-     * jest aktualnie w jakiejkolwiek ramce tzn. czy jest
-     * lub za chwile moze byc w uzyciu.
-     */
-    bool vInFrame;
-
-    /*
-     * typePaging vNumberUsingFrame - numer ramki w jakiej jest
-     * lub ostatnio byla strona.
-     */
-    typePaging vNumberUsingFrame;
-
-    /*
-     * typePaging vNumberOfUsing - liczba uzyc strony.
-     */
-    typePaging vNumberOfUsing;
-
-    /*
-     * typePaging vNumberOfLacks - calkowity numer brakow
-     * strony
-     */
-    typePaging vNumberOfLacks;
-
-    /*
-     * typePaging vAgeOfPage - "wiek" danej strony tzn. liczba
-     * cykli przebywania w ramce.
-     */
-    typePaging vAgeOfPage;
-
-    /********** PRIVATE: END **********/
-
-    /********** PUBLIC: BEGINNING **********/
 public:
     /*
      * cPage() - konstruktor wywolywany bez argumentow
@@ -89,7 +48,7 @@ public:
      * POST:
      * - referencja do obiektu klasy ostream.
      */
-    friend ostream& operator << (ostream& StreamOut, cPage& P);
+    friend std::ostream& operator << (std::ostream& StreamOut, cPage& P);
 
     /*
      * friend istream & operator >> (istream & StreamIn, cPage & P) -
@@ -100,7 +59,7 @@ public:
      * POST:
      * - referencja do obiektu klasy istream.
      */
-    friend istream& operator >> (istream& StreamIn, cPage& P);
+    friend std::istream& operator >> (std::istream& StreamIn, cPage& P);
 
 
 
@@ -307,10 +266,53 @@ public:
         vAgeOfPage = 0;
     }
 
-    /********** PUBLIC: END **********/
-};
+/********** PUBLIC: END **********/
 
-#endif // CPAGE_HPP
+/********** PRIVATE: BEGINNING **********/
+
+private:
+
+    /*
+     * typePaging vNumberPage - numer strony.
+     */
+    typePaging vNumberPage;
+
+    /*
+     * bool vUsingNow - zmienna okreslajaca czy strona
+     * jest aktualnie w jakiejkolwiek ramce tzn. czy jest
+     * lub za chwile moze byc w uzyciu.
+     */
+    bool vInFrame;
+
+    /*
+     * typePaging vNumberUsingFrame - numer ramki w jakiej jest
+     * lub ostatnio byla strona.
+     */
+    typePaging vNumberUsingFrame;
+
+    /*
+     * typePaging vNumberOfUsing - liczba uzyc strony.
+     */
+    typePaging vNumberOfUsing;
+
+    /*
+     * typePaging vNumberOfLacks - calkowity numer brakow
+     * strony
+     */
+    typePaging vNumberOfLacks;
+
+    /*
+     * typePaging vAgeOfPage - "wiek" danej strony tzn. liczba
+     * cykli przebywania w ramce.
+     */
+    typePaging vAgeOfPage;
+
+    /********** PRIVATE: END **********/
+
+
+
+
+};
 
 /* cpage.hpp */
 /********** END_OF_FILE **********/

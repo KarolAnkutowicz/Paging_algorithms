@@ -4,8 +4,7 @@
  * file: cpagingalgorithms.hpp
  */
 
-#ifndef CPAGINGALGORITHMS_HPP
-#define CPAGINGALGORITHMS_HPP
+#pragma once
 
 #include "constantsandtypes.hpp"
 #include "cpage.hpp"
@@ -15,52 +14,14 @@
 #include <iomanip>
 #include <iostream>
 
-using namespace std;
-
 /*
  * cPagingAlgorithms - klasa modelujaca realizacje
  * algorytmow stronicowania.
  */
 class cPagingAlgorithms
 {
-    /********** PRIVATE: BEGINNING **********/
+/********** PUBLIC: BEGINNING **********/
 
-        /*
-         * cPage tabPages[constPage] - tablica dostepnych procesow.
-         */
-    cPage tabPages[constPage];
-
-    /*
-     * typePaging tabReferences[constSeries][constReference] -
-     * tablica kolejnych wywolan stron.
-     */
-    typePaging tabReferences[constSeries][constReference];
-
-    /*
-     * cPage tabFrames[constFrame] - tablica dostepnych ramek.
-     */
-    typePaging tabFrames[constFrame];
-
-    /*
-     * double tabAverageNumberOfLack[constSeries] - tablica
-     * sum brakow stron w poszczegolnych seriach.
-     */
-    typePaging tabSumNumberOfLack[constSeries];
-
-    /*
-     * typePaging vTotalNumberOfLacks - calkowita suma
-     * brakow stron.
-     */
-    typePaging vTotalNumberOfLacks;
-
-    /*
-     * double vAverageNumberOfLack - srednia wartosc brakow stron.
-     */
-    double vAverageNumberOfLack;
-
-    /********** PRIVATE: END **********/
-
-    /********** PUBLIC: BEGINNING **********/
 public:
     /*
      * cPagingAlgorithms() - konstruktor wywolywane bez argumentow.
@@ -424,7 +385,7 @@ public:
      */
     inline void mPrintReference(typePaging aSeries, typePaging aReference)
     {
-        cout << tabReferences[aSeries][aReference];
+        std::cout << tabReferences[aSeries][aReference];
     }
 
     /*
@@ -553,10 +514,50 @@ public:
      */
     void mWriteResultsToFile(enumAlgorithms aAlgorithms);
 
-    /********** PUBLIC: END **********/
-};
+/********** PUBLIC: END **********/
 
-#endif // CPAGINGALGORITHMS_HPP
+/********** PRIVATE: BEGINNING **********/
+
+private:
+
+    /*
+     * cPage tabPages[constPage] - tablica dostepnych procesow.
+     */
+    cPage tabPages[constPage];
+
+    /*
+     * typePaging tabReferences[constSeries][constReference] -
+     * tablica kolejnych wywolan stron.
+     */
+    typePaging tabReferences[constSeries][constReference];
+
+    /*
+     * cPage tabFrames[constFrame] - tablica dostepnych ramek.
+     */
+    typePaging tabFrames[constFrame];
+
+    /*
+     * double tabAverageNumberOfLack[constSeries] - tablica
+     * sum brakow stron w poszczegolnych seriach.
+     */
+    typePaging tabSumNumberOfLack[constSeries];
+
+    /*
+     * typePaging vTotalNumberOfLacks - calkowita suma
+     * brakow stron.
+     */
+    typePaging vTotalNumberOfLacks;
+
+    /*
+     * double vAverageNumberOfLack - srednia wartosc brakow stron.
+     */
+    double vAverageNumberOfLack;
+
+    /********** PRIVATE: END **********/
+
+
+
+};
 
 /* cpagingalgorithms.hpp */
 /********** END_OF_FILE **********/

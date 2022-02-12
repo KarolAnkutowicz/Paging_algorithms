@@ -6,8 +6,6 @@
 
 #include "cpagingalgorithms.hpp"
 
-using namespace std;
-
 /********** PUBLIC: BEGINNING **********/
 
 /*
@@ -420,6 +418,7 @@ void cPagingAlgorithms::mResetAllReferences()
  */
 void cPagingAlgorithms::mReadReferencesFromFile()
 {
+    using namespace std; //zapowiedz wykorzystania elementow ze standardowej przestrzeni nazw
     mResetAllReferences(); // wyczyszczenie aktualnej tablicy referencji
     ifstream StreamIn; // utworzenie wejsciowego strumienia plikowego
     StreamIn.open("references.txt"); // otwarcie strumienia
@@ -434,6 +433,7 @@ void cPagingAlgorithms::mReadReferencesFromFile()
  */
 void cPagingAlgorithms::mWriteReferencesToFile()
 {
+    using namespace std; //zapowiedz wykorzystania elementow ze standardowej przestrzeni nazw
     ofstream StreamOut; // utworzenie wyjsciowego strumienia plikowego
     StreamOut.open("references.txt"); // otwarcie strumienia
     for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
@@ -451,7 +451,7 @@ void cPagingAlgorithms::mWriteReferencesToFile()
 void cPagingAlgorithms::mPrintSeries(typePaging aSeries)
 {
     for (typePaging i = 0; i < constReference; i++) // przejscie po wszystkich referencjach w serii
-        cout << tabReferences[aSeries][i] << " "; // wypisanie referencji
+        std::cout << tabReferences[aSeries][i] << " "; // wypisanie referencji
 }
 
 /*
@@ -462,7 +462,7 @@ void cPagingAlgorithms::mPrintAllReferences()
     for (typePaging i = 0; i < constSeries; i++) // przejscie po wszystkich seriach
     {
         mPrintSeries(i); // wywolanie metody wypisujacej referencje ze wskazanej serii
-        cout << endl; // nowa seria - nowa linijka tekstu
+        std::cout <<'\n'; // nowa seria - nowa linijka tekstu
     }
 }
 
@@ -486,8 +486,8 @@ void cPagingAlgorithms::mPrintFrames()
 {
     for (typePaging i = 0; i < constFrame; i++) // przejscie po wszystkich ramkach
         //cout << "Frame " << i << ": " << tabFrames[i] << endl; // sformatowane wypisanie zawartosci kolejnej ramki
-        cout << "    " << "Frame " << i << ": " << tabFrames[i];
-    cout << endl;
+        std::cout << "    " << "Frame " << i << ": " << tabFrames[i];
+    std::cout << '\n';
 }
 
 
@@ -519,6 +519,7 @@ void cPagingAlgorithms::mCalculateTotalNumberOfLacks()
  */
 void cPagingAlgorithms::mWriteResultsToFile(enumAlgorithms aAlgorithms)
 {
+    using namespace std; //zapowiedz wykorzystania elementow ze standardowej przestrzeni nazw
     // fifo, lifo, lfu, mfu
     ofstream StreamOut; // zdefiniowanie strumienia
     switch (aAlgorithms)

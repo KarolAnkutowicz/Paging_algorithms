@@ -4,10 +4,7 @@
  * file: constantsandtypes.hpp
  */
 
-#ifndef CONSTANTSANDTYPES_HPP
-#define CONSTANTSANDTYPES_HPP
-
-using namespace std;
+#pragma once
 
 /*
  * enum enumAlgorithms - zdefiniowany typ wyliczeniowy
@@ -45,8 +42,6 @@ const typePaging constReference = 10;
  * typePaging constSeries - zdefiniowanie liczby serii
  */
 const typePaging constSeries = 10;
-
-#endif // CONSTANTSANDTYPES_HPP
 
 /* constantsandtypes.hpp */
 /********** END_OF_FILE **********/

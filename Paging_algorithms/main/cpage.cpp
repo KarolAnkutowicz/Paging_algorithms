@@ -6,8 +6,6 @@
 
 #include "cpage.hpp"
 
-using namespace std;
-
 /********** PUBLIC: BEGINNING **********/
 
 /*
@@ -35,7 +33,7 @@ cPage::cPage(typePaging aNumberPage)
 /*
  * ostream & operator << (ostream & StreamOut, cPage & P)
  */
-ostream& operator << (ostream& StreamOut, cPage& P)
+std::ostream& operator << (std::ostream& StreamOut, cPage& P)
 {
     StreamOut << P.getNumberPage() << " "; // wypisanie numeru strony
     return StreamOut; // zwrocenie strumienia
@@ -44,8 +42,9 @@ ostream& operator << (ostream& StreamOut, cPage& P)
 /*
  * istream & operator >> (istream & StreamIn, cPage & P)
  */
-istream& operator >> (istream& StreamIn, cPage& P)
+std::istream& operator >> (std::istream& StreamIn, cPage& P)
 {
+    using std::skipws; // deklaracja wykorzystania elementu ze standardowej przezstrzeni nazw
     typePaging aNumberPage; // utworzenie zmiennej dla ustanowienia numeru stront
     StreamIn >> skipws >> aNumberPage; // wczytanie zmiennej
     P.setNumberPage(aNumberPage); // ustanowienie numeru strony
